@@ -81,10 +81,24 @@ session_write_close();
         </a>
         <div id="collapseThree" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="?url=mtrxkeputusan">Hasil Penilaian</a>
+            <a class="collapse-item" href="?url=mtrxkeputusan">Data Penilaian</a>
             <a class="collapse-item" href="?url=mtrxternormalisasi">Normalisasi</a>
-            <a class="collapse-item" href="?url=mtrxternormalisasi">Perangkingan</a>
-            <a class="collapse-item" href="?url=mtrxternormalisasi">Hasil Akhir</a>
+            <a class="collapse-item" href="?url=agregasi">Agregasi</a>
+            <a class="collapse-item" href="?url=preferensi">Preferensi</a>
+            <a class="collapse-item" href="?url=perankingan">Perankingan</a>
+            <a class="collapse-item" href="?url=rinciansaw">Rincian Langkah SAW</a>
+          </div>
+        </div>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
+          <i class="fas fa-fw fa-dice-d20"></i>
+          <span>Hasil Akhir SAW</span>
+        </a>
+        <div id="collapseFour" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <a class="collapse-item" href="?url=perankingan">Hasil Akhir SAW</a>
           </div>
         </div>
       </li>

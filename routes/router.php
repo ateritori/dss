@@ -87,6 +87,22 @@ if (isset($_GET['url'])) {
 		case 'editpenilaian';
 			include 'editpenilaian.php';
 			break;
+
+		case 'agregasi';
+			include 'agregasi.php';
+			break;
+
+		case 'preferensi';
+			include 'preferensi.php';
+			break;
+
+		case 'perankingan';
+			include 'perangkingan.php';
+			break;
+
+		case 'rinciansaw';
+			include 'rinciansaw.php';
+			break;
 	}
 } else {
 ?>

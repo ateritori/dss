@@ -109,7 +109,8 @@ while ($data = mysqli_fetch_array($result)) {
 <body>
     <br>
     <div class="card shadow mb-5">
-        <div class="card-header py-3" style="text-align: center; background-color: #167395; color: white; font-weight:bold">Data Penilaian</div>
+        <div class="card-header py-3" style="text-align: center; background-color: #167395; color: white; font-weight:bold">Data Penilaian
+        </div>
         <div class="card-body">
             <a href="dashboard.php?url=tambahnilai" class="btn btn-success btn-icon-split" style="background: #167395">
                 <span class="icon text-white-50">
@@ -117,7 +118,7 @@ while ($data = mysqli_fetch_array($result)) {
                 </span>
                 <span class="text" style="font-weight: bold;">Isi Penilaian</span>
             </a>
-
+            <br><br>
             <div>
                 <p style="color: black; font-weight: bold">Tabel Berikut Ini Menampilkan Data Hasil Penilaian dari Masing-Masing Kandidat</p>
                 <div>
@@ -185,3 +186,11 @@ while ($data = mysqli_fetch_array($result)) {
                                 ?>
                             </tbody>
                         </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -63,14 +63,13 @@ if (!isset($_SESSION['username'])) {
 
     <div class="card-body">
       <div>
-        <p style="color: black; font-weight: bold">Tabel Berikut Ini Menampilkan Data Hasil Penilaian dari Masing-Masing Kandidat</p>
         <div>
           <div class="table-responsive">
             <table class="table table-bordered">
               <thead>
                 <tr>
-                  <th scope="col" style="color: black">No</th>
-                  <th scope="col" style="color: black">Nama Alternatif</th>
+                  <th scope="col" style="color: black; text-align: center">No</th>
+                  <th scope="col" style="color: black; text-align: center">Nama Alternatif</th>
                   <?php
                   // Ambil semua kriteria
                   require 'config/koneksi.php';
@@ -80,13 +79,13 @@ if (!isset($_SESSION['username'])) {
                     // Jika kriteria tidak punya subkriteria (punyasub = 0)
                     if ($kriteria['punyasub'] == 0) {
                       // Tampilkan kriteria sebagai kolom
-                      echo "<th scope='col' style='color: black'>" . $kriteria['nama_kriteria'] . "</th>";
+                      echo "<th scope='col' style='color: black; text-align: center'>" . $kriteria['nama_kriteria'] . "</th>";
                     } else {
                       // Jika kriteria punya subkriteria (punyasub = 1), ambil subkriteria terkait
                       $subKriteriaQuery = mysqli_query($conn, "SELECT * FROM SubKriteria WHERE id_kriteria = '" . $kriteria['id_kriteria'] . "'");
                       // Tampilkan setiap subkriteria sebagai kolom
                       while ($subKriteria = mysqli_fetch_array($subKriteriaQuery)) {
-                        echo "<th scope='col' style='color: black'>" . $subKriteria['nama_subkriteria'] . "</th>";
+                        echo "<th scope='col' style='color: black; text-align: center'>" . $subKriteria['nama_subkriteria'] . "</th>";
                       }
                     }
                   }
@@ -151,13 +150,13 @@ if (!isset($_SESSION['username'])) {
                     if ($kriteria['punyasub'] == 0) {
                       // Tampilkan nilai untuk kriteria
                       $nilai = isset($dataAlternatif['penilaian'][$kriteria['nama_kriteria']]) ? $dataAlternatif['penilaian'][$kriteria['nama_kriteria']] : '-';
-                      echo "<td style='color: black'>$nilai</td>";
+                      echo "<td style='color: black; text-align: center'>$nilai</td>";
                     } else {
                       // Jika kriteria punya subkriteria, ambil subkriteria terkait
                       $subKriteriaQuery = mysqli_query($conn, "SELECT * FROM SubKriteria WHERE id_kriteria = '" . $kriteria['id_kriteria'] . "'");
                       while ($subKriteria = mysqli_fetch_array($subKriteriaQuery)) {
                         $nilaiSubKriteria = isset($dataAlternatif['penilaian'][$subKriteria['nama_subkriteria']]) ? $dataAlternatif['penilaian'][$subKriteria['nama_subkriteria']] : '-';
-                        echo "<td style='color: black'>$nilaiSubKriteria</td>";
+                        echo "<td style='color: black; text-align: center'>$nilaiSubKriteria</td>";
                       }
                     }
                   }
@@ -167,8 +166,6 @@ if (!isset($_SESSION['username'])) {
             </table>
           </div>
         </div>
-
-
 </body>
 
 </html>
