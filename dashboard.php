@@ -77,7 +77,7 @@ session_write_close();
       <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
           <i class="fas fa-fw fa-dice-d20"></i>
-          <span>Hasil Perhitungan</span>
+          <span>SAW</span>
         </a>
         <div id="collapseThree" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
@@ -94,11 +94,15 @@ session_write_close();
       <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
           <i class="fas fa-fw fa-dice-d20"></i>
-          <span>Hasil Akhir SAW</span>
+          <span>TOPSIS</span>
         </a>
         <div id="collapseFour" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="?url=perankingan">Hasil Akhir SAW</a>
+            <a class="collapse-item" href="?url=mtrxkeputusan">Data Penilaian</a>
+            <a class="collapse-item" href="?url=tertimbang">Matriks Tertimbang</a>
+            <a class="collapse-item" href="?url=solusi">Solusi Ideal</a>
+            <a class="collapse-item" href="?url=jaraksolusi">Jarak Solusi Ideal</a>
+            <a class="collapse-item" href="?url=preftopsis">Skor Preferensi</a>
           </div>
         </div>
       </li>

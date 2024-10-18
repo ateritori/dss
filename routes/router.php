@@ -103,6 +103,22 @@ if (isset($_GET['url'])) {
 		case 'rinciansaw';
 			include 'rinciansaw.php';
 			break;
+
+		case 'tertimbang';
+			include 'topsis_matriks_tertimbang.php';
+			break;
+
+		case 'solusi';
+			include 'solusi_ideal.php';
+			break;
+
+		case 'jaraksolusi';
+			include 'jarak_solusi.php';
+			break;
+
+		case 'preftopsis';
+			include 'preferensi_topsis.php';
+			break;
 	}
 } else {
 ?>
