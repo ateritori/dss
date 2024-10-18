@@ -68,7 +68,6 @@ if (!isset($_SESSION['username'])) {
             <table class="table table-bordered">
               <thead>
                 <tr>
-                  <th scope="col" style="color: black; text-align: center">No</th>
                   <th scope="col" style="color: black; text-align: center">Nama Alternatif</th>
                   <?php
                   // Ambil semua kriteria
@@ -94,7 +93,6 @@ if (!isset($_SESSION['username'])) {
               </thead>
               <tbody>
                 <?php
-                $no = 0;
 
                 // Ambil semua alternatif
                 $sql = "
@@ -138,9 +136,7 @@ if (!isset($_SESSION['username'])) {
                 }
 
                 foreach ($dataByAlternatif as $id_alternatif => $dataAlternatif) {
-                  $no++;
                   echo "<tr>";
-                  echo "<th scope='row' style='color: black'>$no</th>";
                   echo "<td style='color: black'>" . $dataAlternatif['nama_alternatif'] . "</td>";
 
                   // Ambil semua kriteria lagi untuk menampilkan nilai

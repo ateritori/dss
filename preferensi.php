@@ -11,8 +11,11 @@ if (!isset($_SESSION['username'])) {
 // Koneksi ke database
 require 'config/koneksi.php';
 
-// Ambil data alternatif
-$queryAlternatif = "SELECT * FROM Alternatif WHERE status_alternatif = '1'";
+// Ambil data alternatif yang sudah dinilai
+$queryAlternatif = "SELECT DISTINCT a.id_alternatif, a.nama_alternatif
+                    FROM Alternatif a
+                    JOIN Penilaian p ON a.id_alternatif = p.id_alternatif
+                    WHERE a.status_alternatif = '1'";
 $resultAlternatif = $conn->query($queryAlternatif);
 $alternatif = [];
 while ($row = $resultAlternatif->fetch_assoc()) {
