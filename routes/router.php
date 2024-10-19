@@ -119,8 +119,7 @@ if (isset($_GET['url'])) {
 ?>
 	<br>
 	<div class="h3 mb-0 font-weight-bold" style="color: black;">
-		SISTEM PENDUKUNG PEMBUATAN KEPUTUSAN SELEKSI KEPALA DEPUTI INVESTASI IKN<br>
-		Metode SAW (Simple Additive Weighting) <br>
+		SISTEM PENDUKUNG PEMBUATAN KEPUTUSAN DENGAN 3 METODE PENYELESAIAN <br>
 		<hr>
 		Selamat Datang <?php echo $_SESSION['username']; ?> !
 	</div>
