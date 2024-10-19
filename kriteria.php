@@ -47,6 +47,11 @@ if (!isset($_SESSION['username'])) {
     overflow: auto;
     color: white;
   }
+
+  .total-row {
+    font-weight: bold;
+    background-color: #f2f2f2;
+  }
 </style>
 
 
@@ -86,11 +91,10 @@ if (!isset($_SESSION['username'])) {
               <?php
               require 'config/koneksi.php';
               $no = 0;
-              $bobotkrit = 0;
-              $bobotsubkrit = 0;
-              $sql = mysqli_query($conn, "select * from kriteria");
+              $bobotkrit = 0; // Total bobot dari Kriteria
+              $sql = mysqli_query($conn, "SELECT * FROM kriteria");
               while ($data = mysqli_fetch_array($sql)) {
-                $bobotkrit = $bobotkrit + $data['bobot_kriteria'];
+                $bobotkrit += $data['bobot_kriteria']; // Menghitung total bobot kriteria
                 $no++;
               ?>
 
@@ -115,38 +119,21 @@ if (!isset($_SESSION['username'])) {
                       </a>
                     </td>
                   </tr>
-                  <?php
-                  $urut = 0;
-                  $ceksub = mysqli_query($conn, "select * from SubKriteria where id_kriteria=$data[id_kriteria]");
-                  while ($datasub = mysqli_fetch_array($ceksub)) {
-                    $bobotsubkrit = $bobotsubkrit + $datasub['bobot_subkriteria'];
-                    $urut++;
-                  ?>
-                    <tr>
-                      <td></td>
-                      <th scope="row" style="color: black">C. <sub><?php echo $no . '.' . $urut ?></sub></th>
-                      <td style="color: black"><?php echo $datasub['nama_subkriteria'] ?></td>
-                      <td style="color: black"><?php echo $datasub['bobot_subkriteria'] ?></td>
-                      <td style="color: black"><?php echo $datasub['tipe_subkriteria'] ?></td>
-                      <td><a href="dashboard.php?url=editsubkriteria&id=<?php echo $datasub['id_subkriteria']; ?>" class="btn btn-secondary btn-circle" style="background: #2b4280">
-                          <i class="fa fa-edit"></i>
-                        </a>
-                        <a href="#modalDelete" data-toggle="modal" onclick="$('#modalDelete #formDelete').attr('action', 'hapussubkriteria.php?id=<?php echo $datasub['id_subkriteria']; ?>' )" class="btn btn-danger btn-circle" style="background: #c43939">
-                          <i class="fa fa-trash-alt"></i>
-                        </a>
-                      </td>
-                      <td></td>
-                    </tr>
                 <?php
-                  }
-                  $bobottotal = $bobotkrit + $bobotsubkrit;
-                }
+              }
                 ?>
                 </tbody>
+                <!-- Menambahkan baris total bobot di bawah tabel -->
+                <tfoot>
+                  <tr class="total-row">
+                    <td colspan="3" style="text-align: right; color: black;">Total Bobot:</td>
+                    <td style="color: black;"><?php echo number_format($bobotkrit, 2); ?></td>
+                    <td colspan="3"></td>
+                  </tr>
+                </tfoot>
             </table>
           </div>
         </div>
-
 
         <!-- Delete-->
         <div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -160,7 +147,7 @@ if (!isset($_SESSION['username'])) {
               </div>
               <div class="modal-body">
                 <form id="formDelete" action="" method="POST">
-                  <button class="btn btn-danger" style="background: #c43939" type="submit" sty>Hapus</button>
+                  <button class="btn btn-danger" style="background: #c43939" type="submit">Hapus</button>
                   <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
                 </form>
 
