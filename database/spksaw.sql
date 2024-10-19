@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Oct 17, 2024 at 04:39 PM
+-- Generation Time: Oct 19, 2024 at 08:25 AM
 -- Server version: 10.4.28-MariaDB
--- PHP Version: 8.0.28
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -118,7 +118,12 @@ INSERT INTO `Penilaian` (`id_penilaian`, `id_alternatif`, `id_kriteria`, `id_sub
 (27, 5, 9, 9, 1.00),
 (28, 5, 9, 10, 1.00),
 (29, 5, 13, NULL, 95.00),
-(30, 5, 17, NULL, 86.00);
+(30, 5, 17, NULL, 86.00),
+(31, 7, 6, NULL, 4.00),
+(32, 7, 9, 9, 3.00),
+(33, 7, 9, 10, 1.00),
+(34, 7, 13, NULL, 100.00),
+(35, 7, 17, NULL, 100.00);
 
 -- --------------------------------------------------------
 
@@ -262,7 +267,7 @@ ALTER TABLE `Kriteria`
 -- AUTO_INCREMENT for table `Penilaian`
 --
 ALTER TABLE `Penilaian`
-  MODIFY `id_penilaian` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id_penilaian` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `Rentang`
