@@ -81,7 +81,7 @@ if (!isset($_SESSION['username'])) {
             <?php
             require 'config/koneksi.php';
             $no = 0;
-            $sql = mysqli_query($conn, "SELECT * FROM alternatif");
+            $sql = mysqli_query($conn, "SELECT * FROM Alternatif");
             while ($data = mysqli_fetch_array($sql)) {
               $id_alternatif = $data['id_alternatif'];
               $no++;

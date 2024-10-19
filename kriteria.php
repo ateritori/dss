@@ -81,10 +81,11 @@ if (!isset($_SESSION['username'])) {
                   <th scope="col" style="color: black">No</th>
                   <th scope="col" style="color: black">Simbol</th>
                   <th scope="col" style="color: black">Kriteria/Sub Kriteria</th>
-                  <th scope="col" style="color: black">Bobot</th>
+                  <th scope="col" style="color: black">Bobot Kriteria</th>
+                  <th scope="col" style="color: black">Bobot Sub-Kriteria</th>
                   <th scope="col" style="color: black">Tipe</th>
                   <th scope="col" style="color: black">Aksi</th>
-                  <th scope="col" style="color: black">Sub-Kriteria</th>
+                  <th scope="col" style="color: black"><Sub-Kriteria></Sub-Kriteria></th>
                 </tr>
               </thead>
 
@@ -104,6 +105,7 @@ if (!isset($_SESSION['username'])) {
                     <th scope="row" style="color: black">C<sub><?php echo "$no"; ?></sub></th>
                     <td style="color: black"><?php echo $data['nama_kriteria']; ?></td>
                     <td style="color: black"><?php echo $data['bobot_kriteria']; ?></td>
+                    <td style="color: black"></td>
                     <td style="color: black"><?php echo $data['tipe_kriteria']; ?></td>
                     <td>
                       <a href="dashboard.php?url=editkriteria&id=<?php echo $data['id_kriteria']; ?>" class="btn btn-secondary btn-circle" style="background: #2b4280">
@@ -114,9 +116,11 @@ if (!isset($_SESSION['username'])) {
                       </a>
                     </td>
                     <td>
-                      <a href="dashboard.php?url=tambahsub&id_kriteria=<?php echo $data['id_kriteria']; ?>" class="btn btn-secondary btn-circle" style="background: #006400">
-                        <i class="fa fa-plus"></i>
-                      </a>
+                      <?php if ($data['punyasub'] == 1) { ?>
+                        <a href="dashboard.php?url=tambahsub&id_kriteria=<?php echo $data['id_kriteria']; ?>" class="btn btn-secondary btn-circle" style="background: #006400">
+                          <i class="fa fa-plus"></i>
+                        </a>
+                      <?php } ?>
                     </td>
                   </tr>
                 <?php
