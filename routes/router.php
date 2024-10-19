@@ -31,21 +31,12 @@ if (isset($_GET['url'])) {
 			include 'mtrx_keputusan.php';
 			break;
 
-		case 'editkeputusan';
-			include 'edit_keputusan.php';
-			break;
-
-
 		case 'tambahnilai';
 			include 'tambahnilai.php';
 			break;
 
 		case 'mtrxternormalisasi';
 			include 'mtrx_ternormalisasi.php';
-			break;
-
-		case 'nilaipreferensi';
-			include 'nilaipreferensi.php';
 			break;
 
 		case 'tambahsub';
@@ -118,6 +109,10 @@ if (isset($_GET['url'])) {
 
 		case 'preftopsis';
 			include 'preferensi_topsis.php';
+			break;
+
+		case 'modelwp';
+			include 'modelwp.php';
 			break;
 	}
 } else {

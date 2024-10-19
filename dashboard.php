@@ -92,6 +92,18 @@ session_write_close();
       </li>
 
       <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFive" aria-expanded="true" aria-controls="collapseFive">
+          <i class="fas fa-fw fa-dice-d20"></i>
+          <span>WP</span>
+        </a>
+        <div id="collapseFive" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <a class="collapse-item" href="?url=modelwp">Hasil Metode WP</a>
+          </div>
+        </div>
+      </li>
+
+      <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
           <i class="fas fa-fw fa-dice-d20"></i>
           <span>TOPSIS</span>
@@ -99,7 +111,7 @@ session_write_close();
         <div id="collapseFour" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <a class="collapse-item" href="?url=mtrxkeputusan">Data Penilaian</a>
-            <a class="collapse-item" href="?url=tertimbang">Matriks Tertimbang</a>
+            <a class="collapse-item" href="?url=tertimbang">Penilaian Ternormalisasi</a>
             <a class="collapse-item" href="?url=solusi">Solusi Ideal</a>
             <a class="collapse-item" href="?url=jaraksolusi">Jarak Solusi Ideal</a>
             <a class="collapse-item" href="?url=preftopsis">Skor Preferensi</a>

@@ -109,6 +109,32 @@ foreach ($penilaian as $data) {
         'nilai' => $nilaiNormalisasi
     ];
 }
+
+// Step 3: Membentuk Matriks Keputusan Ternormalisasi
+$keputusanTernormalisasi = [];
+foreach ($normalisasi as $data) {
+    $idKriteria = $data['id_kriteria'];
+    $idSubKriteria = $data['id_subkriteria'];
+    $bobotKriteria = $kriteria[$idKriteria]['bobot'];
+
+    // Hitung nilai keputusan ternormalisasi
+    if ($idSubKriteria) { // Jika ada subkriteria
+        $bobotSubkriteria = $subkriteria[$idSubKriteria]['bobot'];
+        $nilaiTernormalisasi = $data['nilai'] * $bobotSubkriteria; // Gunakan bobot subkriteria
+    } else { // Jika tidak ada subkriteria
+        $nilaiTernormalisasi = $data['nilai'] * $bobotKriteria; // Gunakan bobot kriteria
+    }
+
+    // Masukkan hasil keputusan ternormalisasi ke dalam array
+    $keputusanTernormalisasi[] = [
+        'id_alternatif' => $data['id_alternatif'],
+        'id_kriteria' => $idKriteria,
+        'id_subkriteria' => $idSubKriteria,
+        'nilai_normalisasi' => $data['nilai'],
+        'bobot' => $idSubKriteria ? $bobotSubkriteria : $bobotKriteria,
+        'nilai' => $nilaiTernormalisasi
+    ];
+}
 ?>
 
 <!DOCTYPE html>
@@ -224,6 +250,77 @@ foreach ($penilaian as $data) {
                         </table>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="card shadow mb-5">
+        <div class="card-header py-3" style="text-align: center; background-color: #167395; color: white; font-weight:bold">Matriks Keputusan Ternormalisasi (TOPSIS)</div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th style='text-align: center'>Nama Alternatif</th>
+                            <?php
+                            // Menampilkan Kriteria/Subkriteria sebagai kolom
+                            foreach ($kriteria as $id_kriteria => $k) {
+                                if ($k['punyasub'] == '0') {
+                                    // Jika kriteria tidak memiliki subkriteria
+                                    echo "<th style='text-align: center'>{$k['nama']}</th>";
+                                } elseif ($k['punyasub'] == '1') {
+                                    // Jika kriteria memiliki subkriteria
+                                    foreach ($subkriteria as $id_subkriteria => $sub) {
+                                        if ($sub['id_kriteria'] == $id_kriteria) {
+                                            echo "<th style='text-align: center'>{$sub['nama']}</th>";
+                                        }
+                                    }
+                                }
+                            }
+                            ?>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <tbody>
+                        <?php
+                        // Tampilkan setiap alternatif dengan nilai keputusan ternormalisasi
+                        foreach ($alternatif as $id_alternatif => $nama_alternatif) {
+                            echo "<tr>
+            <td>{$nama_alternatif}</td>";
+                            // Tampilkan nilai keputusan ternormalisasi untuk setiap kriteria/subkriteria
+                            foreach ($kriteria as $id_kriteria => $k) {
+                                // Kriteria tanpa subkriteria
+                                if ($k['punyasub'] == '0') {
+                                    $nilaiTernormalisasi = 0;
+                                    foreach ($keputusanTernormalisasi as $kt) {
+                                        if ($kt['id_alternatif'] == $id_alternatif && $kt['id_kriteria'] == $id_kriteria && !$kt['id_subkriteria']) {
+                                            $nilaiTernormalisasi = round($kt['nilai'] * $k['bobot'], 4); // Kalikan dengan bobot kriteria
+                                            break;
+                                        }
+                                    }
+                                    echo "<td style='text-align: center'>{$nilaiTernormalisasi}</td>";
+                                }
+
+                                // Kriteria dengan subkriteria
+                                if ($k['punyasub'] == '1') {
+                                    foreach ($subkriteria as $id_subkriteria => $sub) {
+                                        if ($sub['id_kriteria'] == $id_kriteria) {
+                                            $nilaiTernormalisasi = 0;
+                                            foreach ($keputusanTernormalisasi as $kt) {
+                                                if ($kt['id_alternatif'] == $id_alternatif && $kt['id_kriteria'] == $id_kriteria && $kt['id_subkriteria'] == $id_subkriteria) {
+                                                    $nilaiTernormalisasi = round($kt['nilai'], 4);
+                                                    break;
+                                                }
+                                            }
+                                            echo "<td style='text-align: center'>{$nilaiTernormalisasi}</td>";
+                                        }
+                                    }
+                                }
+                            }
+                            echo "</tr>";
+                        }
+                        ?>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
