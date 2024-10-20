@@ -16,11 +16,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $jenis_subkriteria = $_POST['jenis_subkriteria'] ?? [];
     $id_subkriteria = $_POST['id_subkriteria'] ?? []; // Menyimpan ID sub-kriteria
 
-    // Konversi tipe_kriteria yang kosong menjadi NULL
-    if (empty($tipe_kriteria)) {
-        $tipe_kriteria = null; // Set as NULL if it's empty
-    }
-
     // Validasi form
     if (empty($nama_kriteria)) {
         echo "Nama kriteria tidak boleh kosong";
@@ -37,6 +32,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit();
     }
 
+    // Ambil status_sub lama dari database
+    $query_old_status = "SELECT sub_kriteria FROM Kriteria WHERE id_kriteria = ?";
+    $stmt_old_status = $conn->prepare($query_old_status);
+    $stmt_old_status->bind_param("i", $id_kriteria);
+    $stmt_old_status->execute();
+    $stmt_old_status->bind_result($old_status_sub);
+    $stmt_old_status->fetch();
+    $stmt_old_status->close();
+
+    // Jika status berubah dari Memiliki Sub Kriteria ke Tidak Memiliki Sub Kriteria
+    if ($old_status_sub === '1' && $status_sub === '0') {
+        // Hapus semua sub-kriteria yang terkait dengan kriteria ini
+        $query_delete_subkriteria = "DELETE FROM SubKriteria WHERE id_kriteria = ?";
+        $stmt_delete_subkriteria = $conn->prepare($query_delete_subkriteria);
+        $stmt_delete_subkriteria->bind_param("i", $id_kriteria);
+        $stmt_delete_subkriteria->execute();
+        $stmt_delete_subkriteria->close();
+    }
+
+    // Jika status berubah dari Tidak Memiliki Sub Kriteria ke Memiliki Sub Kriteria
+    if ($old_status_sub === '0' && $status_sub === '1') {
+        // Ubah kolom tipe_kriteria menjadi NULL
+        $tipe_kriteria = null;
+    }
+
     // Update data kriteria di database
     $query_kriteria = "UPDATE Kriteria SET nama_kriteria = ?, tipe_kriteria = ?, sub_kriteria = ? WHERE id_kriteria = ?";
     $stmt_kriteria = $conn->prepare($query_kriteria);
@@ -50,7 +70,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt_kriteria->bind_param("sssi", $nama_kriteria, $tipe_kriteria, $status_sub, $id_kriteria);
 
     if ($stmt_kriteria->execute()) {
-        // Update sub-kriteria yang ada
+        // Update atau insert sub-kriteria jika status sub_kriteria adalah 1
         if ($status_sub === '1') {
             foreach ($subkriteria as $index => $nama_subkriteria) {
                 if (!empty($id_subkriteria[$index])) {

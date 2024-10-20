@@ -38,6 +38,9 @@
                   title="Hapus Kriteria">
                   <i class="bi bi-x-square-fill"></i>
                 </a>
+                <a href="dashboard.php?url=editsubkriteria&id=<?php echo $data['id_kriteria']; ?>" class="btn btn-outline-dark btn-sm" title="Edit Kriteria">
+                  <i class="bi bi-view-list"></i>
+                </a>
               </td>
             </tr>
             <?php
@@ -54,7 +57,7 @@
                 echo '<td>&nbsp;&nbsp;&nbsp;&nbsp; - ' . $subData['nama_subkriteria'] . '</td>'; // Indentasi sub-kriteria
                 echo '<td>' . $subData['tipe_subkriteria'] . '</td>'; // Tipe sub-kriteria
                 echo '<td>';
-                echo '<a href="dashboard.php?url=editkriteria&id=' . $data['id_kriteria'] . '" class="btn btn-outline-dark btn-sm" title="Edit Sub-Kriteria"><i class="bi bi-pencil-square"></i></a>';
+                echo '<a href="dashboard.php?url=editsubkriteria&id=' . $data['id_kriteria'] . '" class="btn btn-outline-dark btn-sm" title="Edit Sub-Kriteria"><i class="bi bi-pencil-square"></i></a>&nbsp';
                 echo '<a href="#modalDelete" data-toggle="modal" onclick="$(\'#modalDelete #formDelete\').attr(\'action\', \'hapussubkriteria.php?id=' . $subData['id_subkriteria'] . '\')" class="btn btn-outline-dark btn-sm" title="Hapus Sub-Kriteria"><i class="bi bi-x-square-fill"></i></a>';
                 echo '</td>';
                 echo '</tr>';
