@@ -86,7 +86,7 @@ if (!isset($_SESSION['username'])) {
 
                     <!-- Tampilkan nama alternatif yang akan diedit -->
                     <div class="form-group cols-sm-6">
-                        <label style="color: black"><strong>Nama:</strong></label>
+                        <label><strong>Nama:</strong></label>
                         <input type="text" class="form-control" value="<?php echo $alternatif['nama_alternatif']; ?>" readonly>
                         <input type="hidden" name="id_alternatif" value="<?php echo $alternatif['id_alternatif']; ?>">
                     </div>

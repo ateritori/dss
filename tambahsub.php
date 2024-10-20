@@ -108,30 +108,29 @@ if ($result->num_rows > 0) {
         <div class="card-body">
             <form method="post" class="form-horizontal" enctype="multipart/form-data">
                 <div class="form-group cols-sm-6">
-                    <label style="color: black">ID Kriteria</label>
-                    <input type="text" name="id_kriteria" style="color: black" value="<?php echo $id_kriteria; ?>" class="form-control" readonly>
+                    <label>ID Kriteria</label>
+                    <input type="text" name="id_kriteria" value="<?php echo $id_kriteria; ?>" class="form-control" readonly>
                 </div>
 
                 <div class="form-group cols-sm-6">
-                    <label style="color: black">Kriteria</label>
-                    <input type="text" name="kriteria" style="color: black" value="<?php echo $nama_kriteria; ?>" class="form-control" readonly>
+                    <label>Kriteria</label>
+                    <input type="text" name="kriteria" value="<?php echo $nama_kriteria; ?>" class="form-control" readonly>
                 </div>
                 <div class="form-group cols-sm-6">
-                    <label style="color: black">Sub-Kriteria</label>
-                    <input type="text" name="subkriteria" value="<?= $kriteria ?>" class="form-control" style="color: black" required autofocus>
+                    <label>Sub-Kriteria</label>
+                    <input type="text" name="subkriteria" value="<?= $kriteria ?>" class="form-control" required autofocus>
                     <span class="error"><?= $kriteriaErr ?></span>
                 </div>
 
                 <div class="form-group cols-sm-6">
-                    <label style="color: black">Bobot (antara 0.00 s/d 1.00)</label>
-                    <input type="number" step="any" name="bobotsub" value="<?= $bobot ?>" class="form-control" style="color: black">
+                    <label>Bobot (antara 0.00 s/d 1.00)</label>
+                    <input type="number" step="any" name="bobotsub" value="<?= $bobot ?>" class="form-control">
                     <span class="error"><?= $bobotErr ?></span>
                 </div>
 
                 <div class="form-group cols-sm-6">
-                    <label style="color: black">Tipe Sub-Kriteria</label>
-                    <select class="form-control" name="atribut" value="<?= $atribut ?>"
-                        style="color: black">
+                    <label>Tipe Sub-Kriteria</label>
+                    <select class="form-control" name="atribut" value="<?= $atribut ?>">
                         <option hidden></option>
                         <option value="cost">Cost</option>
                         <option value="benefit">Benefit</option>

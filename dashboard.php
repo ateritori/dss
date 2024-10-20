@@ -4,6 +4,7 @@ if (!isset($_SESSION['username'])) {
   echo "<script>alert('Anda Belum Login, Silahkan Login'); window.location = 'index.php';</script>";
 }
 session_write_close();
+require 'config/koneksi.php';
 ?>
 
 <!DOCTYPE html>
@@ -27,11 +28,6 @@ session_write_close();
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
 
 </head>
-<style>
-  body {
-    font-family: "Verdana";
-  }
-</style>
 
 <body id="page-top">
 

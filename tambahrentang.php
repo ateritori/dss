@@ -165,8 +165,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <!-- Dropdown Kriteria -->
                 <div class="form-group cols-sm-6">
-                    <label style="color: black">Kriteria:</label>
-                    <select name="id_kriteria" id="id_kriteria" onchange="getSubKriteria(this.value)" class="form-control" style="color: black">
+                    <label>Kriteria:</label>
+                    <select name="id_kriteria" id="id_kriteria" onchange="getSubKriteria(this.value)" class="form-control">
                         <option value="">-- Pilih Kriteria --</option>
                         <?php
                         // Looping data kriteria ke dalam dropdown
@@ -180,15 +180,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <!-- Dropdown SubKriteria -->
                 <div class="form-group cols-sm-6">
-                    <label style="color: black">SubKriteria:</label>
+                    <label>SubKriteria:</label>
                     <div id="subkriteria">
                     </div>
                     <span class="error"><?= $subkriteriaErr ?></span>
                 </div>
 
                 <div class="form-group cols-sm-6">
-                    <label style="color: black">Jenis Penilaian:</label>
-                    <select name="jenis_penilaian" id="jenis_penilaian" onchange="toggleInputFields()" class="form-control" style="color: black">
+                    <label>Jenis Penilaian:</label>
+                    <select name="jenis_penilaian" id="jenis_penilaian" onchange="toggleInputFields()" class="form-control">
                         <option value="">-- Pilih Jenis Penilaian --</option>
                         <option value="1">Skala</option>
                         <option value="2">Manual</option>
@@ -197,14 +197,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
 
                 <div class="form-group cols-sm-6" id="uraianField" style="display: none;">
-                    <label style="color: black">Uraian: (Silakan Dikosongi Jika Jenis Penilaiannya Manual)</label>
-                    <input type="text" name="nama" id="uraian" value="<?= $nama ?>" class="form-control" style="color: black">
+                    <label>Uraian: (Silakan Dikosongi Jika Jenis Penilaiannya Manual)</label>
+                    <input type="text" name="nama" id="uraian" value="<?= $nama ?>" class="form-control">
                     <span class="error"><?= $namaErr ?></span>
                 </div>
 
                 <div class="form-group cols-sm-6" id="nilaiField" style="display: none;">
-                    <label style="color: black">Value: (Silakan Dikosongi Jika Jenis Penilaiannya Manual)</label>
-                    <input type="number" name="nilai" id="nilai" value="<?= $nilai ?>" class="form-control" style="color: black">
+                    <label>Value: (Silakan Dikosongi Jika Jenis Penilaiannya Manual)</label>
+                    <input type="number" name="nilai" id="nilai" value="<?= $nilai ?>" class="form-control">
                     <span class="error"><?= $nilaiErr ?></span>
                 </div>
 

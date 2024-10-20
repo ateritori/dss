@@ -59,14 +59,14 @@ if (!isset($_SESSION['username'])) {
             <div class="card-body">
                 <form action="simpaneditrentang.php" method="post" class="form-horizontal" enctype="multipart/form-data">
                     <div class="form-group cols-sm-6">
-                        <label style="color: black">ID Rentang</label>
-                        <input type="text" name="id_rentang" style="color: black" value="<?php echo $data['id_rentang']; ?>" class="form-control" readonly>
+                        <label>ID Rentang</label>
+                        <input type="text" name="id_rentang" value="<?php echo $data['id_rentang']; ?>" class="form-control" readonly>
                     </div>
 
                     <!-- Dropdown untuk Kriteria -->
                     <div class="form-group cols-sm-6">
-                        <label style="color: black">Kriteria</label>
-                        <select name="id_kriteria" id="id_kriteria" class="form-control" style="color: black" disabled>
+                        <label>Kriteria</label>
+                        <select name="id_kriteria" id="id_kriteria" class="form-control" disabled>
                             <option value="">-- Pilih Kriteria --</option>
                             <?php
                             while ($kriteria = mysqli_fetch_array($kriteria_sql)) {
@@ -79,8 +79,8 @@ if (!isset($_SESSION['username'])) {
 
                     <!-- Dropdown untuk Sub-Kriteria -->
                     <div class="form-group cols-sm-6">
-                        <label style="color: black">Sub-Kriteria</label>
-                        <select name="id_subkriteria" id="id_subkriteria" class="form-control" style="color: black" disabled>
+                        <label>Sub-Kriteria</label>
+                        <select name="id_subkriteria" id="id_subkriteria" class="form-control" disabled>
                             <?php
                             if (mysqli_num_rows($subkriteria_sql) > 0) {
                                 while ($row = mysqli_fetch_array($subkriteria_sql)) {
@@ -96,8 +96,8 @@ if (!isset($_SESSION['username'])) {
 
                     <!-- Dropdown Jenis Penilaian -->
                     <div class="form-group cols-sm-6">
-                        <label style="color: black">Jenis Penilaian</label>
-                        <select name="jenis_penilaian" id="jenis_penilaian" class="form-control" style="color: black">
+                        <label>Jenis Penilaian</label>
+                        <select name="jenis_penilaian" id="jenis_penilaian" class="form-control">
                             <option value="">-- Pilih Jenis Penilaian --</option>
                             <option value="1" <?php echo ($data['jenis_penilaian'] == '1') ? 'selected' : ''; ?>>Skala</option>
                             <option value="2" <?php echo ($data['jenis_penilaian'] == '2') ? 'selected' : ''; ?>>Manual</option>
@@ -107,13 +107,13 @@ if (!isset($_SESSION['username'])) {
                     <!-- Field untuk Uraian dan Nilai (Akan disembunyikan jika "Manual" dipilih) -->
                     <div id="field_skala">
                         <div class="form-group cols-sm-6">
-                            <label style="color: black">Uraian</label>
-                            <input type="text" name="uraian" style="color: black" value="<?php echo $data['uraian']; ?>" class="form-control">
+                            <label>Uraian</label>
+                            <input type="text" name="uraian" value="<?php echo $data['uraian']; ?>" class="form-control">
                         </div>
 
                         <div class="form-group cols-sm-6">
-                            <label style="color: black">Nilai</label>
-                            <input type="number" step="any" name="value" style="color: black" value="<?php echo $data['nilai_rentang']; ?>" class="form-control">
+                            <label>Nilai</label>
+                            <input type="number" step="any" name="value" value="<?php echo $data['nilai_rentang']; ?>" class="form-control">
                         </div>
                     </div>
 

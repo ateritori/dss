@@ -51,26 +51,26 @@ if (!isset($_SESSION['username'])) {
             <div class="card-body">
                 <form action="simpaneditsubkrit.php" method="post" class="form-horizontal" enctype="multipart/form-data">
                     <div class="form-group cols-sm-6">
-                        <label style="color: black">ID Kriteria</label>
-                        <input type="text" name="id_kriteria" style="color: black" value="<?php echo $data['id_kriteria']; ?>" class="form-control" readonly>
+                        <label>ID Kriteria</label>
+                        <input type="text" name="id_kriteria" value="<?php echo $data['id_kriteria']; ?>" class="form-control" readonly>
                     </div>
                     <div class="form-group cols-sm-6">
-                        <label style="color: black">ID Sub-Kriteria</label>
-                        <input type="text" name="id_subkriteria" style="color: black" value="<?php echo $data['id_subkriteria']; ?>" class="form-control" readonly>
+                        <label>ID Sub-Kriteria</label>
+                        <input type="text" name="id_subkriteria" value="<?php echo $data['id_subkriteria']; ?>" class="form-control" readonly>
                     </div>
                     <div class="form-group cols-sm-6">
-                        <label style="color: black">Sub-Kriteria</label>
-                        <input type="text" name="subkriteria" style="color: black" value="<?php echo $data['nama_subkriteria']; ?>" class="form-control">
-                    </div>
-
-                    <div class="form-group cols-sm-6">
-                        <label style="color: black">Bobot</label>
-                        <input type="number" step="any" name="bobotsub" style="color: black" value="<?php echo $data['bobot_subkriteria']; ?>" class="form-control">
+                        <label>Sub-Kriteria</label>
+                        <input type="text" name="subkriteria" value="<?php echo $data['nama_subkriteria']; ?>" class="form-control">
                     </div>
 
                     <div class="form-group cols-sm-6">
-                        <label style="color: black">Atribut</label>
-                        <select class="form-control" name="atribut" style="color: black">
+                        <label>Bobot</label>
+                        <input type="number" step="any" name="bobotsub" value="<?php echo $data['bobot_subkriteria']; ?>" class="form-control">
+                    </div>
+
+                    <div class="form-group cols-sm-6">
+                        <label>Atribut</label>
+                        <select class="form-control" name="atribut">
                             <option value="benefit" <?php if ($data['tipe_subkriteria'] == 'benefit') {
                                                         echo 'selected';
                                                     } ?>>Benefit</option>

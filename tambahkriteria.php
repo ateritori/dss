@@ -1,162 +1,132 @@
-    <?php
-    require 'config/koneksi.php';
-
-    // Query untuk mendapatkan total bobot kriteria yang sudah tersimpan
-    $query_total_bobot = "SELECT SUM(bobot_kriteria) AS total_bobot FROM Kriteria";
-    $result = $conn->query($query_total_bobot);
-    $row = $result->fetch_assoc();
-    $total_bobot = $row['total_bobot'] ?? 0; // Jika total bobot kosong, anggap sebagai 0
-
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        // Cek apakah kriteria kosong
-        if (empty($_POST['kriteria'])) {
-            echo "<script>alert('Kriteria tidak boleh kosong'); window.location = 'dashboard.php?url=tambahkriteria';</script>";
-            exit();
-        }
-
-        // Mendapatkan input dari form
-        $kriteria = $_POST['kriteria'];
-        $bobot = isset($_POST['bobot']) && $_POST['bobot'] !== "" ? $_POST['bobot'] : NULL;
-        $atribut = isset($_POST['atribut']) && $_POST['atribut'] !== "" ? $_POST['atribut'] : NULL; // Ini bisa NULL jika tidak dipilih
-        $status_sub = $_POST['status_sub']; // Mendapatkan status sub-kriteria dari dropdown
-
-        // Validasi apakah bobot_kriteria diisi
-        if ($bobot === NULL) {
-            echo "<script>alert('Bobot kriteria harus diisi'); window.location = 'dashboard.php?url=tambahkriteria';</script>";
-            exit();
-        }
-
-        // Cek apakah bobot yang baru akan membuat total bobot lebih dari 1
-        if ($total_bobot + $bobot > 1) {
-            echo "<script>alert('Total bobot kriteria tidak boleh lebih dari 1. Total bobot saat ini: $total_bobot'); window.location = 'dashboard.php?url=tambahkriteria';</script>";
-            exit();
-        }
-
-        // Menyiapkan query dengan prepared statements untuk menyimpan data ke tabel Kriteria
-        $query = "INSERT INTO Kriteria (nama_kriteria, bobot_kriteria, tipe_kriteria, punyasub) VALUES (?, ?, ?, ?)";
-        $stmt = $conn->prepare($query);
-
-        // Bind parameters. Atribut di-bind sebagai nullable
-        $stmt->bind_param("sdss", $kriteria, $bobot, $atribut, $status_sub);
-
-        // Eksekusi query
-        if ($stmt->execute()) {
-            echo "<script>alert('Data Berhasil Disimpan'); window.location = 'dashboard.php?url=kriteria';</script>";
-        } else {
-            echo "<script>alert('Gagal Menyimpan Data: " . $conn->error . "'); window.location = 'dashboard.php?url=kriteria';</script>";
-        }
-
-        // Tutup statement
-        $stmt->close();
-    }
-    ?>
-
-    <!DOCTYPE html>
-    <html lang="en">
-
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta name="description" content="">
-        <meta name="author" content="">
-        <title>TAMBAH DATA</title>
-        <!-- Tambahkan jQuery -->
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <style type="text/css">
-            form {
-                width: 100%;
-            }
-
-            body {
-                font-family: "Verdana";
-            }
-
-            .error {
-                font-size: 11px;
-                font-weight: bold;
-                position: relative;
-                left: 10px;
-                margin-bottom: 6px;
-                color: firebrick;
-            }
-
-            #tipe_kriteria_container {
-                display: none;
-                /* Sembunyikan tipe kriteria pada awal */
-            }
-        </style>
-    </head>
-
-    <body id="page-top">
-        <br>
-        <div class="card shadow" style="width: 50%;">
-            <div class="card-header m-0 font-weight-bold" style="text-align:center; background-color: #167395; color: white">Tambah Data Kriteria</div>
-            <div class="card-body">
-                <form method="post" class="form-horizontal" enctype="multipart/form-data">
-                    <div class="form-group cols-sm-6">
-                        <label style="color: black">Kriteria</label>
-                        <input type="text" name="kriteria" value="<?= $kriteria ?>" class="form-control" style="color: black" required autofocus>
-                        <span class="error"><?= $kriteriaErr ?? '' ?></span>
-                    </div>
-
-                    <div class="form-group cols-sm-6">
-                        <label style="color: black">Status Sub-Kriteria</label>
-                        <select class="form-control" name="status_sub" id="status_sub" style="color: black">
-                            <option value="0">Tidak Memiliki Sub-Kriteria</option>
-                            <option value="1">Memiliki Sub-Kriteria</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group cols-sm-6" id="tipe_kriteria_container">
-                        <label style="color: black">Tipe Kriteria</label>
-                        <select class="form-control" name="atribut" id="atribut" style="color: black">
-                            <option value="" selected hidden>Pilih Tipe Kriteria</option>
-                            <option value="cost">Cost</option>
-                            <option value="benefit">Benefit</option>
-                        </select>
-                        <span class="error"><?= $atributErr ?? '' ?></span>
-                    </div>
-
-                    <div class="form-group cols-sm-6">
-                        <label style="color: black">Bobot (antara 0.00 s/d 1.00)</label>
-                        <input type="number" step="any" name="bobot" value="<?= isset($bobot) ? $bobot : '' ?>" class="form-control" style="color: black" required>
-                        <label style="color: black; font-weight: bold;">Total Bobot Sementara: <?= number_format($total_bobot, 2) ?></label>
-                        <span class="error"><?= isset($bobotErr) ? $bobotErr : '' ?></span>
-                    </div>
-
-                    <div class="form-group cols-sm-6">
-                        <button type="submit" class="btn btn-secondary btn-icon-split" style="background: #167395" name="submit">
-                            <span class="icon text-white-50">
-                                <i class="fas fa-user-check"></i>
-                            </span>
-                            <span class="text">Simpan</span>
-                        </button>
-                    </div>
-                </form>
+<div class="card shadow mt-3" style="width: 50%;">
+    <div class="card-header m-0 font-weight-bold" style="text-align:center; background-color: #167395; color: white">Tambah Data Kriteria</div>
+    <div class="card-body">
+        <form action="simpankriteriadansub.php" method="post" class="form-horizontal" enctype="multipart/form-data">
+            <div class="form-group cols-sm-6">
+                <label>Nama Kriteria:</label>
+                <input type="text" name="kriteria" class="form-control" required autofocus>
+                <span class="error"><?= isset($kriteriaErr) ? htmlspecialchars($kriteriaErr) : '' ?></span>
             </div>
-        </div>
 
-        <script>
-            $(document).ready(function() {
-                // Menjalankan fungsi untuk menyembunyikan/menampilkan Tipe Kriteria
-                toggleTipeKriteria();
+            <div class="form-group cols-sm-6">
+                <label>Status Sub-Kriteria</label>
+                <div>
+                    <label><input type="radio" name="status_sub_kriteria" value="0" id="status_sub_0" onclick="updateSubKriteriaDisplay()"> Tidak Memiliki Sub-Kriteria</label><br>
+                    <label><input type="radio" name="status_sub_kriteria" value="1" id="status_sub_1" onclick="updateSubKriteriaDisplay()"> Memiliki Sub-Kriteria</label>
+                </div>
+            </div>
 
-                // Event listener untuk dropdown Status Sub-Kriteria
-                $('#status_sub').change(function() {
-                    toggleTipeKriteria();
-                });
+            <div class="form-group cols-sm-6" id="tipe_kriteria_container" style="display: none;">
+                <label>Tipe Kriteria</label>
+                <select class="form-control" name="atribut" id="atribut">
+                    <option value="" hidden>Pilih Tipe Kriteria</option>
+                    <option value="cost">Cost</option>
+                    <option value="benefit">Benefit</option>
+                </select>
+                <span class="error"><?= isset($atributErr) ? htmlspecialchars($atributErr) : '' ?></span>
+            </div>
 
-                function toggleTipeKriteria() {
-                    if ($('#status_sub').val() == '0') { // Jika tidak memiliki sub-kriteria
-                        $('#tipe_kriteria_container').hide();
-                        $('#atribut').val(''); // Mengosongkan pilihan Tipe Kriteria
-                    } else {
-                        $('#tipe_kriteria_container').show();
-                    }
-                }
-            });
-        </script>
-    </body>
+            <div id="sub_kriteria_kontainer" style="display: none;">
+                <div class="form-group cols-sm-6">
+                    <label>Sub-Kriteria:</label>
+                    <div id="subkriteria_fields">
+                        <div class="subkriteria_group" style="display: flex; align-items: center; margin-bottom: 10px;">
+                            <input type="text" name="subkriteria[]" class="form-control" placeholder="Sub-Kriteria 1" style="flex: 1; margin-right: 10px;">
+                            <div style="margin-left: 10px;">
+                                <label style="margin-right: 10px;"><input type="radio" name="jenis_subkriteria[0]" value="cost"> Cost</label>
+                                <label><input type="radio" name="jenis_subkriteria[0]" value="benefit"> Benefit</label>
+                            </div>
+                            <button type="button" class="btn btn-secondary btn-sm remove_field" style="margin-left: 10px;"><i class="bi bi-dash-circle"></i></button>
+                        </div>
+                    </div>
+                    <div style="display: flex; margin-top: 5px;">
+                        <button type="button" id="add_subkriteria" class="btn btn-secondary btn-sm"><i class="bi bi-window-plus"></i> Tambah Sub-Kriteria</button>
+                    </div>
+                </div>
+            </div>
 
-    </html>
+            <div class="form-group cols-sm-6" style="display: flex; justify-content: flex-end; margin-top: 20px;">
+                <button type="submit" class="btn btn-dark" style="margin-right: 10px;">Simpan</button>
+                <button type="button" class="btn btn-dark" onclick="history.back()">Batal</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    // Fungsi untuk memperbarui tampilan berdasarkan pilihan status sub-kriteria
+    function updateSubKriteriaDisplay() {
+        var statusSub = document.querySelector('input[name="status_sub_kriteria"]:checked');
+        var tipeKriteriaContainer = document.getElementById('tipe_kriteria_container');
+        var subKriteriaKontainer = document.getElementById('sub_kriteria_kontainer');
+
+        if (statusSub) {
+            if (statusSub.value === '0') {
+                tipeKriteriaContainer.style.display = 'block'; // Tampilkan tipe kriteria
+                subKriteriaKontainer.style.display = 'none'; // Sembunyikan sub-kriteria
+            } else if (statusSub.value === '1') {
+                tipeKriteriaContainer.style.display = 'none'; // Sembunyikan tipe kriteria
+                subKriteriaKontainer.style.display = 'block'; // Tampilkan sub-kriteria
+            }
+        }
+    }
+
+    // Atur tampilan awal saat halaman dimuat
+    window.onload = function() {
+        // Tidak memilih radio button dan menyembunyikan div tipe kriteria secara default
+        document.querySelectorAll('input[name="status_sub_kriteria"]').forEach(input => input.checked = false);
+        updateSubKriteriaDisplay(); // Perbarui tampilan berdasarkan pilihan awal
+    };
+
+    // Menambah input sub-kriteria
+    document.getElementById('add_subkriteria').addEventListener('click', function() {
+        var subKriteriaFields = document.getElementById('subkriteria_fields');
+        var index = subKriteriaFields.children.length; // Menghitung jumlah sub-kriteria yang ada
+
+        var newSubkriteriaGroup = document.createElement('div');
+        newSubkriteriaGroup.classList.add('subkriteria_group');
+        newSubkriteriaGroup.style.display = 'flex';
+        newSubkriteriaGroup.style.alignItems = 'center';
+        newSubkriteriaGroup.style.marginBottom = '10px';
+
+        newSubkriteriaGroup.innerHTML = `
+                <input type="text" name="subkriteria[]" class="form-control" placeholder="Sub-Kriteria ${index + 1}" style="flex: 1; margin-right: 10px;">
+                <div style="margin-left: 10px;">
+                    <label style="margin-right: 10px;"><input type="radio" name="jenis_subkriteria[${index}]" value="cost"> Cost</label>
+                    <label><input type="radio" name="jenis_subkriteria[${index}]" value="benefit"> Benefit</label>
+                </div>
+                <button type="button" class="btn btn-secondary btn-sm remove_field" style="margin-left: 10px;"><i class="bi bi-dash-circle"></i></button>
+            `;
+
+        subKriteriaFields.appendChild(newSubkriteriaGroup);
+
+        // Event listener untuk menghapus sub-kriteria
+        newSubkriteriaGroup.querySelector('.remove_field').addEventListener('click', function() {
+            subKriteriaFields.removeChild(newSubkriteriaGroup);
+        });
+    });
+
+    // Validasi sebelum form dikirim
+    document.querySelector('form').addEventListener('submit', function(event) {
+        var statusSub = document.querySelector('input[name="status_sub_kriteria"]:checked');
+
+        // Pastikan status_sub dipilih
+        if (!statusSub) {
+            event.preventDefault(); // Mencegah pengiriman form
+            alert('Silakan pilih status sub-kriteria.');
+            return;
+        }
+
+        // Jika status_sub adalah '1' (memiliki sub-kriteria), maka lakukan validasi sub-kriteria
+        if (statusSub.value === '1') {
+            var subkriteriaInputs = document.querySelectorAll('input[name="subkriteria[]"]');
+            var isSubkriteriaValid = Array.from(subkriteriaInputs).some(input => input.value.trim() !== '');
+
+            if (!isSubkriteriaValid) {
+                event.preventDefault(); // Mencegah pengiriman form jika tidak ada sub-kriteria yang diisi
+                alert('Silakan masukkan setidaknya satu sub-kriteria.');
+                return;
+            }
+        }
+    });
+</script>

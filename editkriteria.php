@@ -117,22 +117,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="card-body">
       <form method="post" class="form-horizontal" enctype="multipart/form-data">
         <div class="form-group cols-sm-6">
-          <label style="color: black">Kriteria</label>
-          <input type="text" name="kriteria" value="<?= $kriteria_data['nama_kriteria'] ?>" class="form-control" style="color: black" required autofocus>
+          <label>Kriteria</label>
+          <input type="text" name="kriteria" value="<?= $kriteria_data['nama_kriteria'] ?>" class="form-control" required autofocus>
           <span class="error"><?= $kriteriaErr ?? '' ?></span>
         </div>
 
         <div class="form-group cols-sm-6">
-          <label style="color: black">Status Sub-Kriteria</label>
-          <select class="form-control" name="status_sub" id="status_sub" style="color: black">
+          <label>Status Sub-Kriteria</label>
+          <select class="form-control" name="status_sub" id="status_sub">
             <option value="0" <?= $kriteria_data['punyasub'] == '0' ? 'selected' : '' ?>>Tidak Memiliki Sub-Kriteria</option>
             <option value="1" <?= $kriteria_data['punyasub'] == '1' ? 'selected' : '' ?>>Memiliki Sub-Kriteria</option>
           </select>
         </div>
 
-        <div class="form-group cols-sm-6" id="tipe_kriteria_container">
-          <label style="color: black">Tipe Kriteria</label>
-          <select class="form-control" name="atribut" id="atribut" style="color: black">
+        <div class="form-group cols-sm-6">
+          <label>Tipe Kriteria</label>
+          <select class="form-control" name="atribut" id="atribut">
             <option value="" hidden>Pilih Tipe Kriteria</option>
             <option value="cost" <?= $kriteria_data['tipe_kriteria'] == 'cost' ? 'selected' : '' ?>>Cost</option>
             <option value="benefit" <?= $kriteria_data['tipe_kriteria'] == 'benefit' ? 'selected' : '' ?>>Benefit</option>
@@ -141,8 +141,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
 
         <div class="form-group cols-sm-6">
-          <label style="color: black">Bobot (antara 0.00 s/d 1.00)</label>
-          <input type="number" step="any" name="bobot" value="<?= $kriteria_data['bobot_kriteria'] ?>" class="form-control" style="color: black" required>
+          <label>Bobot (antara 0.00 s/d 1.00)</label>
+          <input type="number" step="any" name="bobot" value="<?= $kriteria_data['bobot_kriteria'] ?>" class="form-control" required>
           <label style="color: black; font-weight: bold;">Total Bobot Sementara: <?= number_format($total_bobot, 2) ?></label>
           <span class="error"><?= $bobotErr ?? '' ?></span>
         </div>
@@ -154,37 +154,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </span>
             <span class="text">Update</span>
           </button>
+          <button type="button" class="btn btn-secondary btn-icon-split" style="background: #167395" onclick="history.back()">
+            <span class="icon text-white-50">
+              <i class="fas fa-user-check"></i>
+            </span>
+            <span class="text">Kembali</span>
+          </button>
         </div>
       </form>
-      <div class="form-group cols-sm-6">
-        <button type="button" class="btn btn-secondary btn-icon-split" style="background: #167395" onclick="history.back()">
-          <span class="icon text-white-50">
-            <i class="fas fa-user-check"></i>
-          </span>
-          <span class="text">Kembali</span>
-        </button>
-      </div>
     </div>
   </div>
-
-  <script>
-    $(document).ready(function() {
-      toggleTipeKriteria();
-
-      $('#status_sub').change(function() {
-        toggleTipeKriteria();
-      });
-
-      function toggleTipeKriteria() {
-        if ($('#status_sub').val() == '0') {
-          $('#tipe_kriteria_container').hide();
-          $('#atribut').val('');
-        } else {
-          $('#tipe_kriteria_container').show();
-        }
-      }
-    });
-  </script>
 </body>
 
 </html>

@@ -70,13 +70,13 @@ if (!isset($_SESSION['username'])) {
                     <table class="table table-bordered">
                         <thead>
                             <tr>
-                                <th scope="col" style="color: black">No</th>
-                                <th scope="col" style="color: black">Kriteria</th>
-                                <th scope="col" style="color: black">Sub-Kriteria</th>
-                                <th scope="col" style="color: black">Jenis Penilaian</th>
-                                <th scope="col" style="color: black">Uraian</th>
-                                <th scope="col" style="color: black">Nilai</th>
-                                <th scope="col" style="color: black" width="10%">Aksi</th>
+                                <th scope="col">No</th>
+                                <th scope="col">Kriteria</th>
+                                <th scope="col">Sub-Kriteria</th>
+                                <th scope="col">Jenis Penilaian</th>
+                                <th scope="col">Uraian</th>
+                                <th scope="col">Nilai</th>
+                                <th scope="col" width="10%">Aksi</th>
                             </tr>
                         </thead>
                         <?php
@@ -94,10 +94,10 @@ if (!isset($_SESSION['username'])) {
                         ?>
                             <tbody>
                                 <tr>
-                                    <th scope="row" style="color: black"><?php echo "$no"; ?></th>
-                                    <td style="color: black"><?php echo $data['nama_kriteria']; ?></td>
-                                    <td style="color: black"><?php echo $data['nama_subkriteria']; ?></td>
-                                    <td style="color: black">
+                                    <th scope="row"><?php echo "$no"; ?></th>
+                                    <td><?php echo $data['nama_kriteria']; ?></td>
+                                    <td><?php echo $data['nama_subkriteria']; ?></td>
+                                    <td>
                                         <?php
                                         if ($data['jenis_penilaian'] == 1) {
                                             echo "Skala";
@@ -105,10 +105,10 @@ if (!isset($_SESSION['username'])) {
                                             echo "Manual";
                                         }
                                         ?></td>
-                                    <td style="color: black">
+                                    <td>
                                         <?php echo $data['uraian']; ?>
                                     </td>
-                                    <td style="color: black"><?php echo $data['nilai_rentang']; ?></td>
+                                    <td><?php echo $data['nilai_rentang']; ?></td>
                                     <td>
                                         <a href="dashboard.php?url=editrentang&id=<?php echo $data['id_rentang']; ?>" class="btn btn-secondary btn-circle" style="background: #2b4280">
                                             <i class="fa fa-edit"></i>

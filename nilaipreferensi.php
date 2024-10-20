@@ -127,9 +127,9 @@ if (!isset($_SESSION['username'])) {
                         foreach ($alternatives as $alt) {
                         ?>
                             <tr>
-                                <th scope="row" style="color: black"><?php echo $alt['no']; ?></th>
-                                <th scope="row" style="color: black"><?php echo $alt['name']; ?></th>
-                                <td style="color: black"><?php echo $alt['value']; ?></td>
+                                <th scope="row"><?php echo $alt['no']; ?></th>
+                                <th scope="row"><?php echo $alt['name']; ?></th>
+                                <td><?php echo $alt['value']; ?></td>
                             </tr>
                         <?php } ?>
                     </tbody>

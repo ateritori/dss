@@ -94,8 +94,8 @@ if (!isset($_SESSION['username'])) {
 
                     <!-- Bagian Dropdown Alternatif -->
                     <div class="form-group cols-sm-6">
-                        <label style="color: black"><strong>Nama:</strong></label>
-                        <select name="alternatif" class="form-control" style="color: black">
+                        <label><strong>Nama:</strong></label>
+                        <select name="alternatif" class="form-control">
                             <option value="">Pilih Nama</option>
                             <?php
                             while ($data = mysqli_fetch_array($sql)) {
