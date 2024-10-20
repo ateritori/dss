@@ -1,5 +1,8 @@
 <?php
-// Include file koneksi database
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 require('config/koneksi.php');
 
 // Cek apakah form telah disubmit
@@ -46,7 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt_subkriteria->close(); // Tutup statement subkriteria
         }
 
-        echo "Data berhasil disimpan!";
+        echo "<script>alert('Data Berhasil Disimpan'); window.location = 'dashboard.php?url=kriteria';</script>";
     } else {
         echo "Terjadi kesalahan saat menyimpan data kriteria: " . $stmt_kriteria->error;
     }
