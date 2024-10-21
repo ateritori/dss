@@ -67,7 +67,13 @@ while ($row = mysqli_fetch_array($sqlSubKriteria)) {
                     <input type="radio" name="jenis_subkriteria[<?php echo $index; ?>]" value="benefit" <?php echo ($subData['tipe_subkriteria'] == 'benefit') ? 'checked' : ''; ?>> Benefit
                   </label>
                 </div>
-                <button type="button" class="btn btn-secondary btn-sm remove_field" style="margin-left: 10px;"><i class="bi bi-dash-circle"></i></button>
+
+                <!-- Hanya tampilkan tombol hapus jika subkriteria kosong -->
+                <?php if (empty($subData['nama_subkriteria'])): ?>
+                  <button type="button" class="btn btn-secondary btn-sm remove_field" style="margin-left: 10px;">
+                    <i class="bi bi-dash-circle"></i>
+                  </button>
+                <?php endif; ?>
               </div>
             <?php endforeach; ?>
           </div>
@@ -107,9 +113,27 @@ while ($row = mysqli_fetch_array($sqlSubKriteria)) {
   window.onload = function() {
     // Set pilihan radio button dan perbarui tampilan
     updateSubKriteriaDisplay(); // Perbarui tampilan berdasarkan pilihan awal
+
+    // Tambahkan listener untuk tombol hapus subkriteria yang sudah ada
+    initializeRemoveButtons();
   };
 
-  // Menambah input sub-kriteria
+  // Fungsi untuk menambahkan event listener pada tombol hapus subkriteria yang ada
+  function initializeRemoveButtons() {
+    var removeButtons = document.querySelectorAll('.remove_field');
+
+    removeButtons.forEach(function(button) {
+      button.addEventListener('click', function() {
+        var subKriteriaFields = document.getElementById('subkriteria_fields');
+        var subkriteriaGroup = button.closest('.subkriteria_group');
+
+        // Hapus sub-kriteria dari DOM
+        subkriteriaGroup.remove();
+      });
+    });
+  }
+
+  // Menambah input sub-kriteria baru
   document.getElementById('add_subkriteria').addEventListener('click', function() {
     var subKriteriaFields = document.getElementById('subkriteria_fields');
     var index = subKriteriaFields.children.length; // Menghitung jumlah sub-kriteria yang ada
@@ -121,17 +145,21 @@ while ($row = mysqli_fetch_array($sqlSubKriteria)) {
     newSubkriteriaGroup.style.marginBottom = '10px';
 
     newSubkriteriaGroup.innerHTML = `
-                <input type="text" name="subkriteria[]" class="form-control" placeholder="Sub-Kriteria ${index + 1}" style="flex: 1; margin-right: 10px;">
-                <div style="margin-left: 10px;">
-                    <label style="margin-right: 10px;"><input type="radio" name="jenis_subkriteria[${index}]" value="cost"> Cost</label>
-                    <label><input type="radio" name="jenis_subkriteria[${index}]" value="benefit"> Benefit</label>
-                </div>
-                <button type="button" class="btn btn-secondary btn-sm remove_field" style="margin-left: 10px;"><i class="bi bi-dash-circle"></i></button>
-            `;
+      <input type="text" name="subkriteria[]" class="form-control" placeholder="Sub-Kriteria ${index + 1}" style="flex: 1; margin-right: 10px;">
+      <div style="margin-left: 10px;">
+        <label style="margin-right: 10px;">
+          <input type="radio" name="jenis_subkriteria[${index}]" value="cost"> Cost
+        </label>
+        <label>
+          <input type="radio" name="jenis_subkriteria[${index}]" value="benefit"> Benefit
+        </label>
+      </div>
+      <button type="button" class="btn btn-secondary btn-sm remove_field" style="margin-left: 10px;"><i class="bi bi-dash-circle"></i></button>
+    `;
 
     subKriteriaFields.appendChild(newSubkriteriaGroup);
 
-    // Event listener untuk menghapus sub-kriteria
+    // Event listener untuk menghapus sub-kriteria yang baru ditambahkan
     newSubkriteriaGroup.querySelector('.remove_field').addEventListener('click', function() {
       subKriteriaFields.removeChild(newSubkriteriaGroup);
     });

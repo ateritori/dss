@@ -154,6 +154,34 @@ while ($row = mysqli_fetch_array($sqlSubKriteria)) {
             xhr.send(`ajax=delete&id_subkriteria=${idSubkriteria}`);
         }
 
+        // Fungsi untuk menghapus kriteria
+        function deleteKriteria(idKriteria) {
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', 'deletekriteria.php', true); // Endpoint untuk hapus kriteria
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                    const response = JSON.parse(xhr.responseText);
+                    if (response.status === 'success') {
+                        console.log('Kriteria berhasil dihapus');
+                        window.location.href = 'listkriteria.php'; // Redirect ke halaman daftar kriteria
+                    } else {
+                        console.error('Gagal menghapus kriteria:', response.message);
+                    }
+                }
+            };
+            xhr.send(`ajax=delete&id_kriteria=${idKriteria}`);
+        }
+
+        // Event listener untuk tombol hapus kriteria
+        const deleteKriteriaButton = document.getElementById('delete_kriteria');
+        if (deleteKriteriaButton) {
+            deleteKriteriaButton.addEventListener('click', function() {
+                const idKriteria = deleteKriteriaButton.getAttribute('data-id');
+                deleteKriteria(idKriteria); // Panggil fungsi hapus kriteria
+            });
+        }
+
         // Tambahkan event listener ke tombol tambah subkriteria
         const addButton = document.getElementById('add_subkriteria');
         if (addButton) {
