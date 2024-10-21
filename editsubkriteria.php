@@ -55,15 +55,20 @@ while ($row = mysqli_fetch_array($sqlSubKriteria)) {
                                         <input type="radio" name="jenis_subkriteria[<?php echo $index; ?>]" value="benefit" <?php echo ($subData['tipe_subkriteria'] == 'benefit') ? 'checked' : ''; ?>> Benefit
                                     </label>
                                 </div>
-                                <button type="button" class="btn btn-secondary btn-sm remove_field" style="margin-left: 10px;"><i class="bi bi-dash-circle"></i></button>
+                                <button type="button" class="btn btn-secondary btn-sm remove_field" style="margin-left: 10px;">
+                                    <i class="bi bi-dash-circle"></i>
+                                </button>
                             </div>
                         <?php endforeach; ?>
                     </div>
                     <div style="display: flex; margin-top: 5px;">
-                        <button type="button" id="add_subkriteria" class="btn btn-secondary btn-sm"><i class="bi bi-window-plus"></i> Tambah Sub-Kriteria</button>
+                        <button type="button" id="add_subkriteria" class="btn btn-secondary btn-sm">
+                            <i class="bi bi-window-plus"></i> Tambah Sub-Kriteria
+                        </button>
                     </div>
                 </div>
             </div>
+            <input type="hidden" name="hapus_subkriteria[]" id="hapus_subkriteria">
 
             <div class="form-group cols-sm-6" style="display: flex; justify-content: flex-end; margin-top: 20px;">
                 <button type="submit" class="btn btn-dark" style="margin-right: 10px;">Update</button>
@@ -74,40 +79,70 @@ while ($row = mysqli_fetch_array($sqlSubKriteria)) {
 </div>
 
 <script>
-    // Menambah input sub-kriteria
-    document.getElementById('add_subkriteria').addEventListener('click', function() {
-        var subKriteriaFields = document.getElementById('subkriteria_fields');
-        var index = subKriteriaFields.children.length; // Menghitung jumlah sub-kriteria yang ada
+    document.addEventListener('DOMContentLoaded', function() {
+        // Fungsi untuk memperbarui indeks subkriteria dan placeholder
+        function updateSubkriteriaIndices() {
+            document.querySelectorAll('.subkriteria_group').forEach((element, index) => {
+                // Perbarui placeholder dan name attribute dengan indeks yang benar
+                element.querySelector('input[name="subkriteria[]"]').placeholder = `Sub-Kriteria ${index + 1}`;
+                element.querySelectorAll('input[type="radio"]').forEach(radio => {
+                    const name = `jenis_subkriteria[${index}]`;
+                    radio.setAttribute('name', name);
+                });
+            });
+        }
 
-        var newSubkriteriaGroup = document.createElement('div');
-        newSubkriteriaGroup.classList.add('subkriteria_group');
-        newSubkriteriaGroup.style.display = 'flex';
-        newSubkriteriaGroup.style.alignItems = 'center';
-        newSubkriteriaGroup.style.marginBottom = '10px';
+        // Fungsi untuk menambah elemen baru subkriteria
+        function addNewSubkriteria() {
+            const subKriteriaFields = document.getElementById('subkriteria_fields');
+            const index = subKriteriaFields.children.length; // Menghitung jumlah sub-kriteria yang ada
 
-        newSubkriteriaGroup.innerHTML = `
-                <input type="text" name="subkriteria[]" class="form-control" placeholder="Sub-Kriteria ${index + 1}" style="flex: 1; margin-right: 10px;">
-                <div style="margin-left: 10px;">
-                    <label style="margin-right: 10px;"><input type="radio" name="jenis_subkriteria[${index}]" value="cost"> Cost</label>
-                    <label><input type="radio" name="jenis_subkriteria[${index}]" value="benefit"> Benefit</label>
+            // Tambahkan elemen baru untuk input subkriteria
+            const newSubkriteriaField = `
+                <div class="subkriteria_group" style="display: flex; align-items: center; margin-bottom: 10px;">
+                    <input type="hidden" name="id_subkriteria[]" value="">
+                    <input type="text" name="subkriteria[]" class="form-control" placeholder="Sub-Kriteria ${index + 1}" style="flex: 1; margin-right: 10px;">
+                    <div style="margin-left: 10px;">
+                        <label style="margin-right: 10px;">
+                            <input type="radio" name="jenis_subkriteria[${index}]" value="cost"> Cost
+                        </label>
+                        <label>
+                            <input type="radio" name="jenis_subkriteria[${index}]" value="benefit"> Benefit
+                        </label>
+                    </div>
+                    <button type="button" class="btn btn-secondary btn-sm remove_field" style="margin-left: 10px;">
+                        <i class="bi bi-dash-circle"></i>
+                    </button>
                 </div>
-                <button type="button" class="btn btn-secondary btn-sm remove_field" style="margin-left: 10px;"><i class="bi bi-dash-circle"></i></button>
             `;
 
-        subKriteriaFields.appendChild(newSubkriteriaGroup);
+            subKriteriaFields.insertAdjacentHTML('beforeend', newSubkriteriaField);
 
-        // Event listener untuk menghapus sub-kriteria
-        newSubkriteriaGroup.querySelector('.remove_field').addEventListener('click', function() {
-            subKriteriaFields.removeChild(newSubkriteriaGroup);
-        });
-    });
+            // Perbarui indeks setelah menambah
+            updateSubkriteriaIndices();
 
-    // Event listener untuk menghapus sub-kriteria yang sudah ada
-    document.querySelectorAll('.remove_field').forEach(function(button) {
-        button.addEventListener('click', function() {
-            var subKriteriaFields = document.getElementById('subkriteria_fields');
-            var subkriteriaGroup = button.closest('.subkriteria_group');
-            subKriteriaFields.removeChild(subkriteriaGroup);
+            // Menambahkan event listener untuk tombol hapus pada sub-kriteria baru
+            const removeButton = subKriteriaFields.lastElementChild.querySelector('.remove_field');
+            removeButton.addEventListener('click', function() {
+                subKriteriaFields.removeChild(subKriteriaFields.lastElementChild);
+                updateSubkriteriaIndices();
+            });
+        }
+
+        // Tambahkan event listener ke tombol tambah subkriteria
+        const addButton = document.getElementById('add_subkriteria');
+        if (addButton) {
+            addButton.addEventListener('click', addNewSubkriteria);
+        }
+
+        // Inisialisasi event listener untuk tombol hapus yang sudah ada
+        document.querySelectorAll('.remove_field').forEach(button => {
+            button.addEventListener('click', function() {
+                const subKriteriaFields = document.getElementById('subkriteria_fields');
+                const subkriteriaGroup = button.closest('.subkriteria_group');
+                subKriteriaFields.removeChild(subkriteriaGroup);
+                updateSubkriteriaIndices();
+            });
         });
     });
 </script>

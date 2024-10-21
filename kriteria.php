@@ -38,7 +38,7 @@
                   title="Hapus Kriteria">
                   <i class="bi bi-x-square-fill"></i>
                 </a>
-                <a href="dashboard.php?url=editsubkriteria&id=<?php echo $data['id_kriteria']; ?>" class="btn btn-outline-dark btn-sm" title="Edit Kriteria">
+                <a href="dashboard.php?url=editsubkriteria&id=<?php echo $data['id_kriteria']; ?>" class="btn btn-outline-dark btn-sm" title="Sesuaikan Sub-Kriteria">
                   <i class="bi bi-view-list"></i>
                 </a>
               </td>
