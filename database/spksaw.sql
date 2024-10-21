@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.1.3
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Oct 21, 2024 at 12:19 AM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Host: 127.0.0.1
+-- Generation Time: Oct 21, 2024 at 01:32 PM
+-- Server version: 10.4.24-MariaDB
+-- PHP Version: 7.4.29
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,92 +24,96 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Alternatif`
+-- Table structure for table `alternatif`
 --
 
-CREATE TABLE `Alternatif` (
+CREATE TABLE `alternatif` (
   `id_alternatif` int(11) NOT NULL,
   `nama_alternatif` varchar(255) NOT NULL,
   `status_alternatif` enum('0','1') NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `Alternatif`
+-- Dumping data for table `alternatif`
 --
 
-INSERT INTO `Alternatif` (`id_alternatif`, `nama_alternatif`, `status_alternatif`) VALUES
+INSERT INTO `alternatif` (`id_alternatif`, `nama_alternatif`, `status_alternatif`) VALUES
 (1, 'Puntadewa', '1');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Kriteria`
+-- Table structure for table `kriteria`
 --
 
-CREATE TABLE `Kriteria` (
+CREATE TABLE `kriteria` (
   `id_kriteria` int(11) NOT NULL,
   `nama_kriteria` varchar(255) NOT NULL,
   `tipe_kriteria` enum('benefit','cost') DEFAULT NULL,
   `sub_kriteria` enum('0','1') NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `Kriteria`
+-- Dumping data for table `kriteria`
 --
 
-INSERT INTO `Kriteria` (`id_kriteria`, `nama_kriteria`, `tipe_kriteria`, `sub_kriteria`) VALUES
+INSERT INTO `kriteria` (`id_kriteria`, `nama_kriteria`, `tipe_kriteria`, `sub_kriteria`) VALUES
 (1, 'Pendidikan', 'benefit', '0'),
-(2, 'Rekam Jejak', NULL, '1');
+(2, 'Rekam Jejak', NULL, '1'),
+(3, 'Prestasi Yang Pernah Diraih', 'benefit', '0'),
+(4, 'Nilai Ujian Seleksi', NULL, '0');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Penilaian`
+-- Table structure for table `penilaian`
 --
 
-CREATE TABLE `Penilaian` (
+CREATE TABLE `penilaian` (
   `id_penilaian` int(11) NOT NULL,
   `id_alternatif` int(11) DEFAULT NULL,
   `id_kriteria` int(11) DEFAULT NULL,
   `id_subkriteria` int(11) DEFAULT NULL,
   `nilai` decimal(5,2) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Rentang`
+-- Table structure for table `rentang`
 --
 
-CREATE TABLE `Rentang` (
+CREATE TABLE `rentang` (
   `id_rentang` int(11) NOT NULL,
   `id_kriteria` int(11) DEFAULT NULL,
   `id_subkriteria` int(11) DEFAULT NULL,
   `jenis_penilaian` enum('1','2') NOT NULL,
   `uraian` varchar(255) DEFAULT NULL,
   `nilai_rentang` decimal(5,2) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `SubKriteria`
+-- Table structure for table `subkriteria`
 --
 
-CREATE TABLE `SubKriteria` (
+CREATE TABLE `subkriteria` (
   `id_subkriteria` int(11) NOT NULL,
   `id_kriteria` int(11) DEFAULT NULL,
   `nama_subkriteria` varchar(255) NOT NULL,
   `tipe_subkriteria` enum('benefit','cost') NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `SubKriteria`
+-- Dumping data for table `subkriteria`
 --
 
-INSERT INTO `SubKriteria` (`id_subkriteria`, `id_kriteria`, `nama_subkriteria`, `tipe_subkriteria`) VALUES
-(9, 2, 'Pengalaman Pada Jabatan Administrator Publik', 'benefit'),
-(10, 2, 'Riwayat Sanksi Disiplin', 'cost');
+INSERT INTO `subkriteria` (`id_subkriteria`, `id_kriteria`, `nama_subkriteria`, `tipe_subkriteria`) VALUES
+(9, 2, 'Pengalaman Pada Jabatan Administrator', 'benefit'),
+(17, 2, 'Riwayat Sanksi Disiplin', 'cost'),
+(20, 4, 'Seleksi Kompetensi Dasar', 'benefit'),
+(21, 4, 'Seleksi Kompetensi Bidang', 'benefit');
 
 -- --------------------------------------------------------
 
@@ -122,7 +126,7 @@ CREATE TABLE `users` (
   `nama` varchar(50) NOT NULL,
   `username` varchar(100) NOT NULL,
   `password` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `users`
@@ -136,38 +140,38 @@ INSERT INTO `users` (`id_users`, `nama`, `username`, `password`) VALUES
 --
 
 --
--- Indexes for table `Alternatif`
+-- Indexes for table `alternatif`
 --
-ALTER TABLE `Alternatif`
+ALTER TABLE `alternatif`
   ADD PRIMARY KEY (`id_alternatif`);
 
 --
--- Indexes for table `Kriteria`
+-- Indexes for table `kriteria`
 --
-ALTER TABLE `Kriteria`
+ALTER TABLE `kriteria`
   ADD PRIMARY KEY (`id_kriteria`);
 
 --
--- Indexes for table `Penilaian`
+-- Indexes for table `penilaian`
 --
-ALTER TABLE `Penilaian`
+ALTER TABLE `penilaian`
   ADD PRIMARY KEY (`id_penilaian`),
   ADD KEY `id_alternatif` (`id_alternatif`),
   ADD KEY `id_kriteria` (`id_kriteria`),
   ADD KEY `id_subkriteria` (`id_subkriteria`);
 
 --
--- Indexes for table `Rentang`
+-- Indexes for table `rentang`
 --
-ALTER TABLE `Rentang`
+ALTER TABLE `rentang`
   ADD PRIMARY KEY (`id_rentang`),
   ADD KEY `id_kriteria` (`id_kriteria`),
   ADD KEY `id_subkriteria` (`id_subkriteria`);
 
 --
--- Indexes for table `SubKriteria`
+-- Indexes for table `subkriteria`
 --
-ALTER TABLE `SubKriteria`
+ALTER TABLE `subkriteria`
   ADD PRIMARY KEY (`id_subkriteria`),
   ADD KEY `id_kriteria` (`id_kriteria`);
 
@@ -182,34 +186,34 @@ ALTER TABLE `users`
 --
 
 --
--- AUTO_INCREMENT for table `Alternatif`
+-- AUTO_INCREMENT for table `alternatif`
 --
-ALTER TABLE `Alternatif`
+ALTER TABLE `alternatif`
   MODIFY `id_alternatif` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `Kriteria`
+-- AUTO_INCREMENT for table `kriteria`
 --
-ALTER TABLE `Kriteria`
-  MODIFY `id_kriteria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+ALTER TABLE `kriteria`
+  MODIFY `id_kriteria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `Penilaian`
+-- AUTO_INCREMENT for table `penilaian`
 --
-ALTER TABLE `Penilaian`
+ALTER TABLE `penilaian`
   MODIFY `id_penilaian` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `Rentang`
+-- AUTO_INCREMENT for table `rentang`
 --
-ALTER TABLE `Rentang`
+ALTER TABLE `rentang`
   MODIFY `id_rentang` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `SubKriteria`
+-- AUTO_INCREMENT for table `subkriteria`
 --
-ALTER TABLE `SubKriteria`
-  MODIFY `id_subkriteria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+ALTER TABLE `subkriteria`
+  MODIFY `id_subkriteria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -222,25 +226,25 @@ ALTER TABLE `users`
 --
 
 --
--- Constraints for table `Penilaian`
+-- Constraints for table `penilaian`
 --
-ALTER TABLE `Penilaian`
-  ADD CONSTRAINT `penilaian_ibfk_1` FOREIGN KEY (`id_alternatif`) REFERENCES `Alternatif` (`id_alternatif`),
-  ADD CONSTRAINT `penilaian_ibfk_2` FOREIGN KEY (`id_kriteria`) REFERENCES `Kriteria` (`id_kriteria`),
-  ADD CONSTRAINT `penilaian_ibfk_3` FOREIGN KEY (`id_subkriteria`) REFERENCES `SubKriteria` (`id_subkriteria`);
+ALTER TABLE `penilaian`
+  ADD CONSTRAINT `penilaian_ibfk_1` FOREIGN KEY (`id_alternatif`) REFERENCES `alternatif` (`id_alternatif`),
+  ADD CONSTRAINT `penilaian_ibfk_2` FOREIGN KEY (`id_kriteria`) REFERENCES `kriteria` (`id_kriteria`),
+  ADD CONSTRAINT `penilaian_ibfk_3` FOREIGN KEY (`id_subkriteria`) REFERENCES `subkriteria` (`id_subkriteria`);
 
 --
--- Constraints for table `Rentang`
+-- Constraints for table `rentang`
 --
-ALTER TABLE `Rentang`
-  ADD CONSTRAINT `rentang_ibfk_1` FOREIGN KEY (`id_kriteria`) REFERENCES `Kriteria` (`id_kriteria`),
-  ADD CONSTRAINT `rentang_ibfk_2` FOREIGN KEY (`id_subkriteria`) REFERENCES `SubKriteria` (`id_subkriteria`);
+ALTER TABLE `rentang`
+  ADD CONSTRAINT `rentang_ibfk_1` FOREIGN KEY (`id_kriteria`) REFERENCES `kriteria` (`id_kriteria`),
+  ADD CONSTRAINT `rentang_ibfk_2` FOREIGN KEY (`id_subkriteria`) REFERENCES `subkriteria` (`id_subkriteria`);
 
 --
--- Constraints for table `SubKriteria`
+-- Constraints for table `subkriteria`
 --
-ALTER TABLE `SubKriteria`
-  ADD CONSTRAINT `subkriteria_ibfk_1` FOREIGN KEY (`id_kriteria`) REFERENCES `Kriteria` (`id_kriteria`);
+ALTER TABLE `subkriteria`
+  ADD CONSTRAINT `subkriteria_ibfk_1` FOREIGN KEY (`id_kriteria`) REFERENCES `kriteria` (`id_kriteria`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

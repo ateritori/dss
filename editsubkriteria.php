@@ -99,22 +99,22 @@ while ($row = mysqli_fetch_array($sqlSubKriteria)) {
 
             // Tambahkan elemen baru untuk input subkriteria
             const newSubkriteriaField = `
-                <div class="subkriteria_group" style="display: flex; align-items: center; margin-bottom: 10px;">
-                    <input type="hidden" name="id_subkriteria[]" value="">
-                    <input type="text" name="subkriteria[]" class="form-control" placeholder="Sub-Kriteria ${index + 1}" style="flex: 1; margin-right: 10px;">
-                    <div style="margin-left: 10px;">
-                        <label style="margin-right: 10px;">
-                            <input type="radio" name="jenis_subkriteria[${index}]" value="cost"> Cost
-                        </label>
-                        <label>
-                            <input type="radio" name="jenis_subkriteria[${index}]" value="benefit"> Benefit
-                        </label>
-                    </div>
-                    <button type="button" class="btn btn-secondary btn-sm remove_field" style="margin-left: 10px;">
-                        <i class="bi bi-dash-circle"></i>
-                    </button>
+            <div class="subkriteria_group" style="display: flex; align-items: center; margin-bottom: 10px;">
+                <input type="hidden" name="id_subkriteria[]" value="">
+                <input type="text" name="subkriteria[]" class="form-control" placeholder="Sub-Kriteria ${index + 1}" style="flex: 1; margin-right: 10px;">
+                <div style="margin-left: 10px;">
+                    <label style="margin-right: 10px;">
+                        <input type="radio" name="jenis_subkriteria[${index}]" value="cost"> Cost
+                    </label>
+                    <label>
+                        <input type="radio" name="jenis_subkriteria[${index}]" value="benefit"> Benefit
+                    </label>
                 </div>
-            `;
+                <button type="button" class="btn btn-secondary btn-sm remove_field" style="margin-left: 10px;">
+                    <i class="bi bi-dash-circle"></i>
+                </button>
+            </div>
+        `;
 
             subKriteriaFields.insertAdjacentHTML('beforeend', newSubkriteriaField);
 
@@ -124,9 +124,34 @@ while ($row = mysqli_fetch_array($sqlSubKriteria)) {
             // Menambahkan event listener untuk tombol hapus pada sub-kriteria baru
             const removeButton = subKriteriaFields.lastElementChild.querySelector('.remove_field');
             removeButton.addEventListener('click', function() {
-                subKriteriaFields.removeChild(subKriteriaFields.lastElementChild);
+                const subkriteriaGroup = removeButton.closest('.subkriteria_group');
+                const idSubkriteria = subkriteriaGroup.querySelector('input[name="id_subkriteria[]"]').value;
+
+                // Jika ada id_subkriteria, hapus dari database
+                if (idSubkriteria) {
+                    deleteSubkriteria(idSubkriteria);
+                }
+                subkriteriaGroup.remove();
                 updateSubkriteriaIndices();
             });
+        }
+
+        // Fungsi untuk mengirimkan request penghapusan subkriteria ke server
+        function deleteSubkriteria(idSubkriteria) {
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', 'updatesubkriteria.php', true); // Pastikan URL benar
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                    const response = JSON.parse(xhr.responseText);
+                    if (response.status === 'success') {
+                        console.log('Subkriteria berhasil dihapus');
+                    } else {
+                        console.error('Gagal menghapus subkriteria:', response.message);
+                    }
+                }
+            };
+            xhr.send(`ajax=delete&id_subkriteria=${idSubkriteria}`);
         }
 
         // Tambahkan event listener ke tombol tambah subkriteria
@@ -138,9 +163,14 @@ while ($row = mysqli_fetch_array($sqlSubKriteria)) {
         // Inisialisasi event listener untuk tombol hapus yang sudah ada
         document.querySelectorAll('.remove_field').forEach(button => {
             button.addEventListener('click', function() {
-                const subKriteriaFields = document.getElementById('subkriteria_fields');
                 const subkriteriaGroup = button.closest('.subkriteria_group');
-                subKriteriaFields.removeChild(subkriteriaGroup);
+                const idSubkriteria = subkriteriaGroup.querySelector('input[name="id_subkriteria[]"]').value;
+
+                // Jika ada id_subkriteria, hapus dari database
+                if (idSubkriteria) {
+                    deleteSubkriteria(idSubkriteria);
+                }
+                subkriteriaGroup.remove();
                 updateSubkriteriaIndices();
             });
         });
