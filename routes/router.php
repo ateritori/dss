@@ -47,12 +47,12 @@ if (isset($_GET['url'])) {
 			include 'editsubkriteria.php';
 			break;
 
-		case 'rentang';
-			include 'rentang.php';
+		case 'rentangnilai';
+			include 'rentangnilai.php';
 			break;
 
-		case 'tambahrentang';
-			include 'tambahrentang.php';
+		case 'subrentangnilai';
+			include 'subrentangnilai.php';
 			break;
 
 		case 'editrentang';

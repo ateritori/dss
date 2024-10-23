@@ -1,5 +1,5 @@
 <div class="card shadow mt-3">
-  <div class="card-header py-3" style="text-align: center; background-color: #167395; color: white; font-weight:bold">DATA KRITERIA</div>
+  <div class="card-header py-3" style="text-align: center; background-color: #167395; color: white; font-weight:bold">DATA KRITERIA & SUB KRITERIA</div>
   <div class="card-body">
     <a href="dashboard.php?url=tambahkriteria" class="btn btn-outline-dark" title="Tambah Kriteria">
       <i class="bi bi-plus-square-fill"></i>&nbsp;Kriteria
@@ -39,8 +39,15 @@
                   <i class="bi bi-x-square-fill"></i>
                 </a>
                 <a href="dashboard.php?url=editsubkriteria&id=<?php echo $data['id_kriteria']; ?>" class="btn btn-outline-dark btn-sm" title="Sesuaikan Sub-Kriteria">
-                  <i class="bi bi-view-list"></i>
+                  <i class="bi bi-layer-backward"></i>
                 </a>
+                <?php
+                if ($data['sub_kriteria'] == "0") {
+                ?>
+                  <a href="dashboard.php?url=rentangnilai&id=<?php echo $data['id_kriteria']; ?>" class="btn btn-outline-dark btn-sm" title="Isi Rentang Penilaian">
+                    <i class="bi bi-calendar3-range"></i>
+                  </a>
+                <?php } ?>
               </td>
             </tr>
             <?php
@@ -58,7 +65,8 @@
                 echo '<td>' . $subData['tipe_subkriteria'] . '</td>'; // Tipe sub-kriteria
                 echo '<td>';
                 echo '<a href="dashboard.php?url=editsubkriteria&id=' . $data['id_kriteria'] . '" class="btn btn-outline-dark btn-sm" title="Edit Sub-Kriteria"><i class="bi bi-pencil-square"></i></a>&nbsp';
-                echo '<a href="#modalDelete" data-toggle="modal" onclick="$(\'#modalDelete #formDelete\').attr(\'action\', \'hapussubkriteria.php?id=' . $subData['id_subkriteria'] . '\')" class="btn btn-outline-dark btn-sm" title="Hapus Sub-Kriteria"><i class="bi bi-x-square-fill"></i></a>';
+                echo '<a href="#modalDelete" data-toggle="modal" onclick="$(\'#modalDelete #formDelete\').attr(\'action\', \'hapussubkriteria.php?id=' . $subData['id_subkriteria'] . '\')" class="btn btn-outline-dark btn-sm" title="Hapus Sub-Kriteria"><i class="bi bi-x-square-fill"></i></a>&nbsp;';
+                echo '<a href="dashboard.php?url=subrentangnilai&id=' . $subData['id_subkriteria'] . '" class="btn btn-outline-dark btn-sm" title="Isi Rentang Penilaian"><i class="bi bi-calendar3-range"></i></a>&nbsp';
                 echo '</td>';
                 echo '</tr>';
               }

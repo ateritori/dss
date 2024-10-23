@@ -2,7 +2,7 @@
   <div class="card-header py-3" style="text-align: center; background-color: #167395; color: white; font-weight:bold">DATA ALTERNATIF</div>
   <div class="card-body">
     <a href="dashboard.php?url=tambahalternatif" class="btn btn-outline-dark" title="Tambah Alternatif">
-      <i class="bi bi-plus-square-fill"></i>
+      <i class="bi bi-plus-square-fill"></i>&nbsp;Alternatif
     </a>
     <a href="ubahstatussemuaalternatif.php?status=aktif" class="btn btn-outline-dark" title="Aktifkan Semua">
       <i class="bi bi-toggle-on"></i>

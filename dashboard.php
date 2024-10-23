@@ -58,24 +58,35 @@ require 'config/koneksi.php';
       <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
           <i class="fas fa-fw fa-file-alt"></i>
-          <span>Input Data</span>
+          <span>Input Master Data</span>
         </a>
         <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <a class="collapse-item" href="?url=alternatif">Alternatif</a>
             <a class="collapse-item" href="?url=kriteria">Kriteria</a>
-            <a class="collapse-item" href="?url=rentang">Rentang Nilai</a>
-            <a class="collapse-item" href="?url=penilaian">Penilaian </a>
           </div>
         </div>
       </li>
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+          <i class="fas fa-fw fa-file-alt"></i>
+          <span>Input Penilaian</span>
+        </a>
+        <div id="collapseOne" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <a class="collapse-item" href="#">Bobot Kriteria</a>
+            <a class="collapse-item" href="#">Penilaian</a>
+          </div>
+        </div>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
           <i class="fas fa-fw fa-dice-d20"></i>
           <span>SAW</span>
         </a>
-        <div id="collapseThree" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <a class="collapse-item" href="?url=mtrxkeputusan">Data Penilaian</a>
             <a class="collapse-item" href="?url=mtrxternormalisasi">Normalisasi</a>
@@ -88,11 +99,11 @@ require 'config/koneksi.php';
       </li>
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFive" aria-expanded="true" aria-controls="collapseFive">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
           <i class="fas fa-fw fa-dice-d20"></i>
           <span>WP</span>
         </a>
-        <div id="collapseFive" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+        <div id="collapseThree" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <a class="collapse-item" href="?url=modelwp">Hasil Metode WP</a>
           </div>
