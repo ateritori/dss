@@ -47,6 +47,10 @@ if (isset($_GET['url'])) {
 			include 'editsubkriteria.php';
 			break;
 
+		case 'data_rentang';
+			include 'data_rentang.php';
+			break;
+
 		case 'rentangnilai';
 			include 'rentangnilai.php';
 			break;

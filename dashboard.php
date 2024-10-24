@@ -64,6 +64,7 @@ require 'config/koneksi.php';
           <div class="bg-white py-2 collapse-inner rounded">
             <a class="collapse-item" href="?url=alternatif">Alternatif</a>
             <a class="collapse-item" href="?url=kriteria">Kriteria</a>
+            <a class="collapse-item" href="?url=data_rentang">Rentang Nilai</a>
           </div>
         </div>
       </li>
