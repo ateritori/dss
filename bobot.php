@@ -1,6 +1,6 @@
 <?php
 // Query untuk mengambil semua data dari tabel kriteria
-$querykriteria = "SELECT * From Kriteria";
+$querykriteria = "SELECT * FROM Kriteria";
 // Menjalankan query
 $resultkriteria = mysqli_query($conn, $querykriteria);
 $no = 1;
@@ -15,6 +15,7 @@ $no = 1;
                         <th>No</th>
                         <th>Kriteria</th>
                         <th>Tipe</th>
+                        <th>Memiliki Sub-Kriteria</th>
                         <th>Pilih Kriteria</th>
                     </tr>
                 </thead>
@@ -25,39 +26,74 @@ $no = 1;
                             <td><?php echo $datakriteria['nama_kriteria']; ?></td>
                             <td><?php echo is_null($datakriteria['tipe_kriteria']) ? "NULL" : $datakriteria['tipe_kriteria']; ?></td>
                             <td>
-                                <input type="checkbox" class="checkItem" />
+                                <?php
+                                echo ($datakriteria['sub_kriteria'] == '1') ? "Ya" :  "Tidak";
+                                ?>
+                            </td>
+                            <td>
+                                <input type="checkbox" class="checkItem"
+                                    value="<?php echo $datakriteria['nama_kriteria']; ?>"
+                                    data-id="<?php echo $datakriteria['id_kriteria']; ?>"
+                                    data-tipe="<?php echo is_null($datakriteria['tipe_kriteria']) ? 'NULL' : $datakriteria['tipe_kriteria']; ?>" />
                             </td>
                         </tr>
                     <?php
                         $no++;
                     } ?>
                     <tr>
-                        <td colspan="4" style="text-align: end;">
-                            <button id="checkAllBtn"><i class="bi bi-check-square"></i></button>
-                            <button id="uncheckAllBtn"><i class="bi bi-dash-square"></i></button>
-                            <button><i class="bi bi-arrow-right-square-fill"></i></button>
+                        <td colspan="5" style="text-align: end;">
+                            <button id="toggleCheckBtn"><i class="bi bi-check-square"></i> Check All</button>
+                            <button id="getDataBtn"><i class="bi bi-arrow-right-square-fill"></i> Get Checked Data</button>
                         </td>
                     </tr>
                 </tbody>
             </table>
 
+            <!-- Area untuk menampilkan hasil checkbox yang dicentang -->
+            <div id="checkedDataResult" style="margin-top: 20px;">
+                <h5>Checked Data:</h5>
+                <ul id="resultList"></ul> <!-- List untuk menampilkan data yang dicentang -->
+            </div>
+
             <script>
-                // Ceklist semua
-                document.getElementById('checkAllBtn').onclick = function() {
-                    let checkboxes = document.querySelectorAll('.checkItem');
-                    checkboxes.forEach(checkbox => checkbox.checked = true);
+                let isAllChecked = false; // Untuk toggle status
+
+                // Toggle check/uncheck semua checkbox
+                document.getElementById('toggleCheckBtn').onclick = function() {
+                    let checkboxes = document.querySelectorAll('.checkItem:not(:disabled)');
+                    checkboxes.forEach(checkbox => checkbox.checked = !isAllChecked);
+                    isAllChecked = !isAllChecked;
+
+                    // Ubah ikon dan teks tombol
+                    this.innerHTML = isAllChecked ?
+                        '<i class="bi bi-dash-square"></i> Uncheck All' :
+                        '<i class="bi bi-check-square"></i> Check All';
                 };
 
-                // Unchecklist semua
-                document.getElementById('uncheckAllBtn').onclick = function() {
-                    let checkboxes = document.querySelectorAll('.checkItem');
-                    checkboxes.forEach(checkbox => checkbox.checked = false);
-                };
+                // Ambil data checkbox yang dicentang dan disable checkbox setelah data diambil
+                document.getElementById('getDataBtn').onclick = function() {
+                    let resultList = document.getElementById('resultList');
+                    resultList.innerHTML = ''; // Kosongkan list sebelumnya
 
-                // Fitur untuk ceklist semua dengan checkbox di header
-                document.getElementById('checkAll').onclick = function() {
-                    let checkboxes = document.querySelectorAll('.checkItem');
-                    checkboxes.forEach(checkbox => checkbox.checked = this.checked);
+                    let checkboxes = document.querySelectorAll('.checkItem:checked:not(:disabled)');
+                    if (checkboxes.length > 0) {
+                        checkboxes.forEach(checkbox => {
+                            // Ambil nama, id, dan tipe dari atribut checkbox
+                            let nama = checkbox.value;
+                            let id = checkbox.getAttribute('data-id');
+                            let tipe = checkbox.getAttribute('data-tipe');
+
+                            // Buat list item untuk hasil
+                            let listItem = document.createElement('li');
+                            listItem.textContent = `ID: ${id}, Nama: ${nama}, Tipe: ${tipe}`;
+                            resultList.appendChild(listItem);
+
+                            // Disable checkbox setelah diambil datanya
+                            checkbox.disabled = true;
+                        });
+                    } else {
+                        resultList.innerHTML = '<li>No items checked.</li>';
+                    }
                 };
             </script>
         </div>
