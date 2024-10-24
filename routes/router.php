@@ -59,6 +59,10 @@ if (isset($_GET['url'])) {
 			include 'subrentangnilai.php';
 			break;
 
+		case 'tambahrentang';
+			include 'tambahrentang.php';
+			break;
+
 		case 'editrentang';
 			include 'editrentang.php';
 			break;

@@ -1,6 +1,9 @@
 <div class="card shadow mt-3">
     <div class="card-header py-3" style="text-align: center; background-color: #167395; color: white; font-weight:bold">DATA RENTANG PENILAIAN</div>
     <div class="card-body">
+        <a href="dashboard.php?url=tambahrentang" class="btn btn-outline-dark" title="Tambah Rentang Penilaian">
+            <i class="bi bi-plus-square-fill"></i>&nbsp;Rentang Nilai
+        </a>
         <div class="table-responsive mt-3">
             <?php
             // Menghubungkan ke database
@@ -35,7 +38,7 @@
             if (mysqli_num_rows($result) > 0) {
                 echo "<table class='table table-bordered'>";
                 echo "<tr style='text-align: center'>";
-                echo "<th>Nomor Urut</th>";
+                echo "<th>No</th>";
                 echo "<th>Nama Kriteria / Sub-Kriteria</th>";
                 echo "<th>Jenis Penilaian</th>";
                 echo "<th>Uraian</th>";
@@ -115,7 +118,6 @@
                             </a>
                         </td>
                     <?php
-                        echo "<td>$id";
                         echo "</tr>";
 
                         $previous_kriteria = $current_kriteria; // Update kriteria
@@ -144,7 +146,6 @@
                             </a>
                         </td>
             <?php
-                        echo "<td>$id</td>";
                         echo "</tr>";
                     }
                 }
