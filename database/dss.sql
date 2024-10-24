@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.3
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Oct 21, 2024 at 01:32 PM
--- Server version: 10.4.24-MariaDB
--- PHP Version: 7.4.29
+-- Host: localhost
+-- Generation Time: Oct 24, 2024 at 01:24 PM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `spksaw`
+-- Database: `dss`
 --
 
 -- --------------------------------------------------------
@@ -31,14 +31,18 @@ CREATE TABLE `alternatif` (
   `id_alternatif` int(11) NOT NULL,
   `nama_alternatif` varchar(255) NOT NULL,
   `status_alternatif` enum('0','1') NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `alternatif`
 --
 
 INSERT INTO `alternatif` (`id_alternatif`, `nama_alternatif`, `status_alternatif`) VALUES
-(1, 'Puntadewa', '1');
+(1, 'Puntadewa', '1'),
+(2, 'Werkudara', '1'),
+(3, 'Arjuna', '1'),
+(4, 'Nakula', '1'),
+(5, 'Sadewa', '1');
 
 -- --------------------------------------------------------
 
@@ -51,7 +55,7 @@ CREATE TABLE `kriteria` (
   `nama_kriteria` varchar(255) NOT NULL,
   `tipe_kriteria` enum('benefit','cost') DEFAULT NULL,
   `sub_kriteria` enum('0','1') NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `kriteria`
@@ -61,7 +65,7 @@ INSERT INTO `kriteria` (`id_kriteria`, `nama_kriteria`, `tipe_kriteria`, `sub_kr
 (1, 'Pendidikan', 'benefit', '0'),
 (2, 'Rekam Jejak', NULL, '1'),
 (3, 'Prestasi Yang Pernah Diraih', 'benefit', '0'),
-(4, 'Nilai Ujian Seleksi', NULL, '0');
+(4, 'Nilai Ujian Seleksi', 'benefit', '0');
 
 -- --------------------------------------------------------
 
@@ -75,7 +79,7 @@ CREATE TABLE `penilaian` (
   `id_kriteria` int(11) DEFAULT NULL,
   `id_subkriteria` int(11) DEFAULT NULL,
   `nilai` decimal(5,2) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -90,7 +94,28 @@ CREATE TABLE `rentang` (
   `jenis_penilaian` enum('1','2') NOT NULL,
   `uraian` varchar(255) DEFAULT NULL,
   `nilai_rentang` decimal(5,2) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `rentang`
+--
+
+INSERT INTO `rentang` (`id_rentang`, `id_kriteria`, `id_subkriteria`, `jenis_penilaian`, `uraian`, `nilai_rentang`) VALUES
+(1, 1, NULL, '2', 'Dibawah Strata-2', 1.00),
+(2, 1, NULL, '2', 'Strata-2 Non-Linier', 2.00),
+(3, 1, NULL, '2', 'Srata-2 Linier', 3.00),
+(4, 1, NULL, '2', 'Diatas Strata-2', 4.00),
+(5, 4, NULL, '1', NULL, NULL),
+(6, 3, NULL, '2', 'Pernah Mendapat Kurang dari 2 Penghargaan TIngkat Nasional', 1.00),
+(7, 3, NULL, '2', 'Pernah Mendapat 2 - 5 Penghargaan Tingkat Nasional', 2.00),
+(8, 3, NULL, '2', 'Pernah Mendapoat Lebih dari 5 Penghargaan Tingkat Nasional', 3.00),
+(9, 2, 9, '2', 'Belum Pernah Menjabat Jabatan Administrator', 1.00),
+(10, 2, 9, '2', 'Berpengalamanan Kurang dari 2 Tahun Pada Jabatan Administrator', 2.00),
+(11, 2, 9, '2', 'Berpengalaman Lebih dari 2 Tahun Pada Jabatan Administrator', 3.00),
+(12, 2, 17, '2', 'Belum Pernah Mendapat Sanksi Disiplin', 1.00),
+(13, 2, 17, '2', 'Pernah Mendapatkan Sanksi Tertulis', 2.00),
+(14, 2, 17, '2', 'Pernah Mendapatkan Sanksi Administratif', 3.00),
+(15, 2, 17, '2', 'Pernah Mendapatkan Sanksi Penurunan Jabatan', 4.00);
 
 -- --------------------------------------------------------
 
@@ -103,7 +128,7 @@ CREATE TABLE `subkriteria` (
   `id_kriteria` int(11) DEFAULT NULL,
   `nama_subkriteria` varchar(255) NOT NULL,
   `tipe_subkriteria` enum('benefit','cost') NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `subkriteria`
@@ -111,9 +136,7 @@ CREATE TABLE `subkriteria` (
 
 INSERT INTO `subkriteria` (`id_subkriteria`, `id_kriteria`, `nama_subkriteria`, `tipe_subkriteria`) VALUES
 (9, 2, 'Pengalaman Pada Jabatan Administrator', 'benefit'),
-(17, 2, 'Riwayat Sanksi Disiplin', 'cost'),
-(20, 4, 'Seleksi Kompetensi Dasar', 'benefit'),
-(21, 4, 'Seleksi Kompetensi Bidang', 'benefit');
+(17, 2, 'Riwayat Sanksi Disiplin', 'cost');
 
 -- --------------------------------------------------------
 
@@ -126,7 +149,7 @@ CREATE TABLE `users` (
   `nama` varchar(50) NOT NULL,
   `username` varchar(100) NOT NULL,
   `password` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `users`
@@ -189,7 +212,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `alternatif`
 --
 ALTER TABLE `alternatif`
-  MODIFY `id_alternatif` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_alternatif` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `kriteria`
@@ -207,7 +230,7 @@ ALTER TABLE `penilaian`
 -- AUTO_INCREMENT for table `rentang`
 --
 ALTER TABLE `rentang`
-  MODIFY `id_rentang` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_rentang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `subkriteria`

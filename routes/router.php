@@ -71,8 +71,8 @@ if (isset($_GET['url'])) {
 			include 'hapusrentang.php';
 			break;
 
-		case 'simpaneditrentang';
-			include 'simpaneditrentang.php';
+		case 'bobot';
+			include 'bobot.php';
 			break;
 
 		case 'simpannilai';

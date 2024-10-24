@@ -76,7 +76,7 @@ require 'config/koneksi.php';
         </a>
         <div id="collapseOne" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="#">Bobot Kriteria</a>
+            <a class="collapse-item" href="?url=bobot">Bobot Kriteria</a>
             <a class="collapse-item" href="#">Penilaian</a>
           </div>
         </div>

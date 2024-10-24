@@ -6,9 +6,6 @@
         </a>
         <div class="table-responsive mt-3">
             <?php
-            // Menghubungkan ke database
-            require('config/koneksi.php');
-
             // Query untuk mengambil semua data dari tabel rentang
             $query = "
                 SELECT 
