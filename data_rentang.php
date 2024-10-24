@@ -11,6 +11,7 @@
                 SELECT 
                     r.id_rentang,
                     r.id_kriteria,
+                    r.id_subkriteria,
                     k.nama_kriteria,
                     k.sub_kriteria,
                     s.nama_subkriteria,
@@ -60,6 +61,9 @@
                     // Cek apakah kriteria/sub-kriteria sudah berubah
                     $current_kriteria = ($row['sub_kriteria'] == 0) ? $row['nama_kriteria'] : $row['nama_subkriteria'];
 
+                    $id = is_null($row['id_subkriteria']) ? $row['id_kriteria'] : $row['id_subkriteria'];
+                    $link = is_null($row['id_subkriteria']) ? 'rentangnilai' : 'subrentangnilai';
+
                     if ($previous_kriteria !== $current_kriteria) {
                         // Hitung berapa banyak baris detail untuk kriteria/sub-kriteria ini
                         $count = 1; // reset hitungan untuk kriteria/sub-kriteria baru
@@ -85,12 +89,17 @@
                         echo "<td rowspan='" . $count . "'>" . $jenis_penilaian . "</td>";
 
                         // Tampilkan detail yang lain pada baris ini
-                        echo "<td>$row[uraian]</td>";
-                        echo "<td>$row[nilai_rentang]</td>";
+                        // Jika Uraian Bernilai NULL
+                        if (is_null($row['uraian'])) {
+                            echo "<td colspan=2>Diisi Angka Dinamis/ Manual oleh Penilai</td>";
+                        } else {
+                            echo "<td>$row[uraian]</td>";
+                            echo "<td>$row[nilai_rentang]</td>";
+                        }
             ?>
                         <td>
                             <!-- Tombol Edit -->
-                            <a href="dashboard.php?url=editnilairentang&id=<?php echo $row['id_rentang']; ?>"
+                            <a href="dashboard.php?url=<?php echo $link; ?>&id=<?php echo $id; ?>"
                                 class="btn btn-outline-dark btn-sm"
                                 title="Edit Alternatif">
                                 <i class="bi bi-pencil-square"></i>
@@ -106,6 +115,7 @@
                             </a>
                         </td>
                     <?php
+                        echo "<td>$id";
                         echo "</tr>";
 
                         $previous_kriteria = $current_kriteria; // Update kriteria
@@ -118,7 +128,7 @@
                     ?>
                         <td>
                             <!-- Tombol Edit -->
-                            <a href="dashboard.php?url=editnilairentang&id=<?php echo $row['id_rentang']; ?>"
+                            <a href="dashboard.php?url=<?php echo $link; ?>&id=<?php echo $id; ?>"
                                 class="btn btn-outline-dark btn-sm"
                                 title="Edit Alternatif">
                                 <i class="bi bi-pencil-square"></i>
@@ -134,6 +144,7 @@
                             </a>
                         </td>
             <?php
+                        echo "<td>$id</td>";
                         echo "</tr>";
                     }
                 }
