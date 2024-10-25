@@ -42,8 +42,8 @@ $no = 1;
                     } ?>
                     <tr>
                         <td colspan="5" style="text-align: end;">
-                            <button id="toggleCheckBtn"><i class="bi bi-check-square"></i> Check All</button>
-                            <button id="getDataBtn"><i class="bi bi-arrow-right-square-fill"></i> Get Checked Data</button>
+                            <button id="toggleCheckBtn"><i class="bi bi-check-square"></i> Pilih Semua</button>
+                            <button id="getDataBtn"><i class="bi bi-arrow-right-square-fill"></i> Proses</button>
                         </td>
                     </tr>
                 </tbody>
@@ -51,31 +51,57 @@ $no = 1;
 
             <!-- Area untuk menampilkan hasil checkbox yang dicentang -->
             <div id="checkedDataResult" style="margin-top: 20px;">
-                <h5>Checked Data:</h5>
+                <h5>Kriteria Yang Dipilih:</h5>
                 <ul id="resultList"></ul> <!-- List untuk menampilkan data yang dicentang -->
             </div>
 
             <script>
                 let isAllChecked = false; // Untuk toggle status
 
+                // Fungsi untuk memperbarui status tombol
+                function updateCheckAllButton() {
+                    const checkboxes = document.querySelectorAll('.checkItem');
+                    isAllChecked = Array.from(checkboxes).every(cb => cb.checked); // Cek apakah semua checkbox tercentang
+
+                    const toggleCheckBtn = document.getElementById('toggleCheckBtn');
+                    toggleCheckBtn.innerHTML = isAllChecked ?
+                        '<i class="bi bi-dash-square"></i> Reset' :
+                        '<i class="bi bi-check-square"></i> Pilih Semua';
+                }
+
                 // Toggle check/uncheck semua checkbox
                 document.getElementById('toggleCheckBtn').onclick = function() {
-                    let checkboxes = document.querySelectorAll('.checkItem:not(:disabled)');
-                    checkboxes.forEach(checkbox => checkbox.checked = !isAllChecked);
-                    isAllChecked = !isAllChecked;
+                    let checkboxes = document.querySelectorAll('.checkItem');
+                    checkboxes.forEach(checkbox => {
+                        checkbox.checked = !isAllChecked; // Toggle checkbox
+                        checkbox.disabled = false; // Pastikan checkbox tidak dinonaktifkan
+                    });
 
-                    // Ubah ikon dan teks tombol
-                    this.innerHTML = isAllChecked ?
-                        '<i class="bi bi-dash-square"></i> Uncheck All' :
-                        '<i class="bi bi-check-square"></i> Check All';
+                    isAllChecked = !isAllChecked; // Update status toggle
+
+                    // Reset hasil jika uncheck
+                    if (!isAllChecked) {
+                        document.getElementById('resultList').innerHTML = ''; // Kosongkan list sebelumnya
+                    }
+
+                    // Perbarui status tombol
+                    updateCheckAllButton();
                 };
+
+                // Menambahkan event listener ke setiap checkbox
+                document.querySelectorAll('.checkItem').forEach(checkbox => {
+                    checkbox.addEventListener('change', function() {
+                        // Memperbarui status tombol
+                        updateCheckAllButton();
+                    });
+                });
 
                 // Ambil data checkbox yang dicentang dan disable checkbox setelah data diambil
                 document.getElementById('getDataBtn').onclick = function() {
                     let resultList = document.getElementById('resultList');
                     resultList.innerHTML = ''; // Kosongkan list sebelumnya
 
-                    let checkboxes = document.querySelectorAll('.checkItem:checked:not(:disabled)');
+                    let checkboxes = document.querySelectorAll('.checkItem:checked');
                     if (checkboxes.length > 0) {
                         checkboxes.forEach(checkbox => {
                             // Ambil nama, id, dan tipe dari atribut checkbox
@@ -89,10 +115,10 @@ $no = 1;
                             resultList.appendChild(listItem);
 
                             // Disable checkbox setelah diambil datanya
-                            checkbox.disabled = true;
+                            checkbox.disabled = true; // Disable checkbox setelah diambil datanya
                         });
                     } else {
-                        resultList.innerHTML = '<li>No items checked.</li>';
+                        resultList.innerHTML = '<li>Tidak Ada Kriteria Yang Dipilih</li>';
                     }
                 };
             </script>
