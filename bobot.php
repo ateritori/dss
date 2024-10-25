@@ -6,7 +6,7 @@ $resultkriteria = mysqli_query($conn, $querykriteria);
 $no = 1;
 ?>
 <div class="card shadow mt-3">
-    <div class="card-header py-3" style="text-align: center; background-color: #167395; color: white; font-weight:bold">DATA BOBOT KRITERIA</div>
+    <div class="card-header py-3" style="text-align: center; background-color: #167395; color: white; font-weight:bold">DATA BOBOT KRITERIA & SUB-KRITERIA</div>
     <div class="card-body">
         <div class="table-responsive mt-3">
             <table class="table table-bordered">
@@ -25,103 +25,89 @@ $no = 1;
                             <td><?php echo $no; ?></td>
                             <td><?php echo $datakriteria['nama_kriteria']; ?></td>
                             <td><?php echo is_null($datakriteria['tipe_kriteria']) ? "NULL" : $datakriteria['tipe_kriteria']; ?></td>
+                            <td><?php echo ($datakriteria['sub_kriteria'] == '1') ? "Ya" :  "Tidak"; ?></td>
                             <td>
-                                <?php
-                                echo ($datakriteria['sub_kriteria'] == '1') ? "Ya" :  "Tidak";
-                                ?>
-                            </td>
-                            <td>
-                                <input type="checkbox" class="checkItem"
+                                <input type="checkbox" class="checkItemKriteria"
                                     value="<?php echo $datakriteria['nama_kriteria']; ?>"
                                     data-id="<?php echo $datakriteria['id_kriteria']; ?>"
                                     data-tipe="<?php echo is_null($datakriteria['tipe_kriteria']) ? 'NULL' : $datakriteria['tipe_kriteria']; ?>" />
                             </td>
                         </tr>
-                    <?php
-                        $no++;
+                    <?php $no++;
                     } ?>
                     <tr>
                         <td colspan="5" style="text-align: end;">
-                            <button id="toggleCheckBtn"><i class="bi bi-check-square"></i> Pilih Semua</button>
-                            <button id="getDataBtn"><i class="bi bi-arrow-right-square-fill"></i> Proses</button>
+                            <button id="toggleCheckBtnKriteria"><i class="bi bi-check-square"></i> Check All</button>
+                            <button id="getDataBtnKriteria"><i class="bi bi-arrow-right-square-fill"></i> Get Checked Data</button>
                         </td>
                     </tr>
                 </tbody>
             </table>
 
-            <!-- Area untuk menampilkan hasil checkbox yang dicentang -->
-            <div id="checkedDataResult" style="margin-top: 20px;">
-                <h5>Kriteria Yang Dipilih:</h5>
-                <ul id="resultList"></ul> <!-- List untuk menampilkan data yang dicentang -->
+            <div id="checkedDataResultKriteria" style="margin-top: 20px;">
+                <h5>Checked Data:</h5>
+                <ul id="resultListKriteria"></ul>
             </div>
 
             <script>
-                let isAllChecked = false; // Untuk toggle status
+                let isAllCheckedKriteria = false;
 
-                // Fungsi untuk memperbarui status tombol
-                function updateCheckAllButton() {
-                    const checkboxes = document.querySelectorAll('.checkItem');
-                    isAllChecked = Array.from(checkboxes).every(cb => cb.checked); // Cek apakah semua checkbox tercentang
+                function updateCheckAllButtonKriteria() {
+                    const checkboxes = document.querySelectorAll('.checkItemKriteria');
+                    isAllCheckedKriteria = Array.from(checkboxes).every(cb => cb.checked);
 
-                    const toggleCheckBtn = document.getElementById('toggleCheckBtn');
-                    toggleCheckBtn.innerHTML = isAllChecked ?
-                        '<i class="bi bi-dash-square"></i> Reset' :
-                        '<i class="bi bi-check-square"></i> Pilih Semua';
+                    const toggleCheckBtn = document.getElementById('toggleCheckBtnKriteria');
+                    toggleCheckBtn.innerHTML = isAllCheckedKriteria ?
+                        '<i class="bi bi-dash-square"></i> Uncheck All' :
+                        '<i class="bi bi-check-square"></i> Check All';
                 }
 
-                // Toggle check/uncheck semua checkbox
-                document.getElementById('toggleCheckBtn').onclick = function() {
-                    let checkboxes = document.querySelectorAll('.checkItem');
+                document.getElementById('toggleCheckBtnKriteria').onclick = function() {
+                    let checkboxes = document.querySelectorAll('.checkItemKriteria');
                     checkboxes.forEach(checkbox => {
-                        checkbox.checked = !isAllChecked; // Toggle checkbox
-                        checkbox.disabled = false; // Pastikan checkbox tidak dinonaktifkan
+                        checkbox.checked = !isAllCheckedKriteria;
+                        checkbox.disabled = false;
                     });
 
-                    isAllChecked = !isAllChecked; // Update status toggle
+                    isAllCheckedKriteria = !isAllCheckedKriteria;
 
-                    // Reset hasil jika uncheck
-                    if (!isAllChecked) {
-                        document.getElementById('resultList').innerHTML = ''; // Kosongkan list sebelumnya
+                    if (!isAllCheckedKriteria) {
+                        document.getElementById('resultListKriteria').innerHTML = '';
                     }
 
-                    // Perbarui status tombol
-                    updateCheckAllButton();
+                    updateCheckAllButtonKriteria();
                 };
 
-                // Menambahkan event listener ke setiap checkbox
-                document.querySelectorAll('.checkItem').forEach(checkbox => {
-                    checkbox.addEventListener('change', function() {
-                        // Memperbarui status tombol
-                        updateCheckAllButton();
-                    });
+                document.querySelectorAll('.checkItemKriteria').forEach(checkbox => {
+                    checkbox.addEventListener('change', updateCheckAllButtonKriteria);
                 });
 
-                // Ambil data checkbox yang dicentang dan disable checkbox setelah data diambil
-                document.getElementById('getDataBtn').onclick = function() {
-                    let resultList = document.getElementById('resultList');
-                    resultList.innerHTML = ''; // Kosongkan list sebelumnya
+                document.getElementById('getDataBtnKriteria').onclick = function() {
+                    let resultList = document.getElementById('resultListKriteria');
+                    resultList.innerHTML = '';
 
-                    let checkboxes = document.querySelectorAll('.checkItem:checked');
+                    let checkboxes = document.querySelectorAll('.checkItemKriteria:checked');
                     if (checkboxes.length > 0) {
                         checkboxes.forEach(checkbox => {
-                            // Ambil nama, id, dan tipe dari atribut checkbox
                             let nama = checkbox.value;
                             let id = checkbox.getAttribute('data-id');
                             let tipe = checkbox.getAttribute('data-tipe');
 
-                            // Buat list item untuk hasil
                             let listItem = document.createElement('li');
                             listItem.textContent = `ID: ${id}, Nama: ${nama}, Tipe: ${tipe}`;
                             resultList.appendChild(listItem);
 
-                            // Disable checkbox setelah diambil datanya
-                            checkbox.disabled = true; // Disable checkbox setelah diambil datanya
+                            checkbox.disabled = true;
                         });
                     } else {
-                        resultList.innerHTML = '<li>Tidak Ada Kriteria Yang Dipilih</li>';
+                        resultList.innerHTML = '<li>No items checked.</li>';
                     }
                 };
             </script>
         </div>
     </div>
 </div>
+
+<?php
+include "bobot_subkriteria.php";
+?>
