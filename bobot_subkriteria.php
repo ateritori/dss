@@ -7,6 +7,7 @@ $no = 1;
 ?>
 <div class="card shadow mt-3">
     <div class="card-body">
+        <h5>Silakan Memilih Sub-Kriteria yang Akan Digunakan</h5>
         <div class="table-responsive mt-3">
             <table class="table table-bordered">
                 <thead>
@@ -34,7 +35,7 @@ $no = 1;
                             <td>
                                 <input type="checkbox" class="checkItemSub"
                                     value="<?php echo $datasubkriteria['nama_subkriteria']; ?>"
-                                    data-id="<?php echo $datasubkriteria['id_kriteria']; ?>"
+                                    data-id="<?php echo $datasubkriteria['id_subkriteria']; ?>"
                                     data-tipe="<?php echo is_null($datasubkriteria['tipe_subkriteria']) ? 'NULL' : $datasubkriteria['tipe_subkriteria']; ?>" />
                             </td>
                         </tr>
@@ -50,7 +51,7 @@ $no = 1;
             </table>
 
             <div id="checkedDataResultSub" style="margin-top: 20px;">
-                <h5>Kriteria Yang Dipilih:</h5>
+                <h6>Sub-Kriteria Yang Dipilih:</h6>
                 <ul id="resultListSub"></ul>
             </div>
 
@@ -105,7 +106,7 @@ $no = 1;
                             checkbox.disabled = true;
                         });
                     } else {
-                        resultList.innerHTML = '<li>Tidak Ada Kriteria Yang Dipilih</li>';
+                        resultList.innerHTML = '<li>Tidak Ada Sub-Kriteria Yang Dipilih</li>';
                     }
                 };
             </script>
