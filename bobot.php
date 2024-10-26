@@ -56,12 +56,13 @@ $no = 1;
                 <div class="col-sm-6">
                     <select name="modelbobot" class="form-control mr-2">
                         <option value="">Silakan Pilih Metode Pembobotan</option>
-                        <option value="1">Pembobotan Kriteria</option>
+                        <option value="1">Perbandingan Kriteria</option>
                         <option value="2">Prosentase Manual</option>
                     </select>
                 </div>
             </div>
-
+            <!-- Tambahkan elemen div untuk menampung ahpFormContainer di luar metodebobotDiv -->
+            <div id="ahpContainer" class="mt-3"></div>
         </div>
     </div>
 </div>
