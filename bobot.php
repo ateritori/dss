@@ -56,16 +56,22 @@ $no = 1;
                     </ol>
                     <button class="btn-sm-secondary" id="resetpilihan">Reset Pilihan</button>
                 </div>
+
                 <div class="col-sm-4">
                     <label>Silakan Pilih Metode Pembobotan:</label>
                     <select name="metodebobot" id="metodebobot" class="form-control">
                         <option value="">--Silakan Pilih Metode Pembobotan--</option>
                         <option value="1">Bobot Semua Kriteria Sama</option>
                         <option value="2">Masukkan Bobot Dinamis</option>
-                        <option value="3">Pembobotan Kriteria</option>
+                        <option value="3">Perbandingan Kriteria</option>
                     </select>
                 </div>
             </div>
+        </div>
+
+        <div id="bobotdinamis" class="col-sm-12 mt-3 d-none">
+            <div id="inputContainer" class="row"></div> <!-- Tempat input bobot dinamis akan ditambahkan -->
+            <button class="btn-sm-econdary" id="btnbobotdinamis">Simpan Bobot</button> <!-- Tombol simpan bobot dengan lebar penuh -->
         </div>
 
         <div class="col-sm-6 mt-3 d-none" id="hasilPembobotanContainer">
@@ -82,6 +88,7 @@ $no = 1;
                 </tbody>
             </table>
         </div>
+
     </div>
 </div>
 <script src="assets/js/bobot_kriteria.js"></script>
