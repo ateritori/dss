@@ -9,7 +9,7 @@ $no = 1;
     <div class="card-header py-3" style="text-align: center; background-color: #167395; color: white; font-weight:bold">DATA BOBOT KRITERIA & SUB-KRITERIA</div>
     <div class="card-body">
         <h5>Silakan Memilih Kriteria yang Akan Digunakan</h5>
-        <div class="table-responsive mt-3">
+        <div class="col-sm-12 mt-3">
             <table class="table table-bordered">
                 <thead>
                     <tr style="text-align: center;">
@@ -39,34 +39,49 @@ $no = 1;
                     <tr>
                         <td colspan="4"></td>
                         <td>
-                            <button id="pilihsemua"><i class="bi bi-check-square"></i></button>
-                            <button id="proses"><i class="bi bi-arrow-right-square-fill"></i></button>
+                            <button id="pilihsemuakriteria"><i class="bi bi-check-square"></i></button>
+                            <button id="lanjutpilihbobot"><i class="bi bi-arrow-right-square-fill"></i></button>
                         </td>
                     </tr>
                 </tbody>
             </table>
+        </div>
 
-            <div id="pilihankriteria" class="d-none" style="margin-top: 20px;">
-                <h5>Kriteria yang Dipilih:</h5>
-                <ul id="resultListKriteria"></ul>
-            </div>
+        <div class="col-sm-12 d-none" id="pilihancontainer">
+            <div class="row">
+                <div class="col-sm-4">
+                    <span>Kriteria Yang Dipilih:</span>
+                    <ol id="pilihankriteria">
 
-            <div id="metodebobot" class="form-group row col-sm-10 d-none">
-                <label class="col-form-label">Silakan Pilih Metode Pembobotan:</label>
-                <div class="col-sm-6">
-                    <select name="modelbobot" class="form-control mr-2">
-                        <option value="">Silakan Pilih Metode Pembobotan</option>
-                        <option value="1">Perbandingan Kriteria</option>
-                        <option value="2">Prosentase Manual</option>
+                    </ol>
+                    <button class="btn-sm-secondary" id="resetpilihan">Reset Pilihan</button>
+                </div>
+                <div class="col-sm-4">
+                    <label>Silakan Pilih Metode Pembobotan:</label>
+                    <select name="metodebobot" id="metodebobot" class="form-control">
+                        <option value="">--Silakan Pilih Metode Pembobotan--</option>
+                        <option value="1">Bobot Semua Kriteria Sama</option>
+                        <option value="2">Masukkan Bobot Dinamis</option>
+                        <option value="3">Pembobotan Kriteria</option>
                     </select>
                 </div>
             </div>
-            <!-- Tambahkan elemen div untuk menampung ahpFormContainer di luar metodebobotDiv -->
-            <div id="ahpContainer" class="mt-3"></div>
+        </div>
+
+        <div class="col-sm-6 mt-3 d-none" id="hasilPembobotanContainer">
+            <table class="table table-bordered" id="tabelPembobotan">
+                <thead>
+                    <tr style="text-align: center;">
+                        <th>No</th>
+                        <th>Pilihan Kriteria</th>
+                        <th>Bobot (%)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Data akan diisi secara dinamis -->
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
-<script src="assets/js/bobot.js"></script>
-<?php
-//include "bobot_subkriteria.php";
-?>
+<script src="assets/js/bobot_kriteria.js"></script>
