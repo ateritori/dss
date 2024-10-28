@@ -120,7 +120,6 @@ document.addEventListener("DOMContentLoaded", function () {
     );
     pilihSemuaKriteriaBtn.disabled = true;
     pilihanContainer.classList.remove("d-none");
-    alert("Pilihan kriteria dan subkriteria telah disimpan.");
   });
 
   // Inisialisasi awal
