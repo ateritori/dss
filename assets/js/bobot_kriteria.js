@@ -195,56 +195,60 @@ document.addEventListener('DOMContentLoaded', function () {
         bobotDinamisContainer.classList.add('d-none');
     });
 
-    // Fungsi untuk mengisi tabel gabungan dengan hasil kombinasi bobot
     const fillGabunganTable = () => {
-    const tabelGabunganBody = document.querySelector('#tabelGabungan tbody');
-    tabelGabunganBody.innerHTML = '';
-
-    let rowIndex = 1;
-
-    checkboxesKriteria.forEach(kriteriaCheckbox => {
-        const kriteriaId = kriteriaCheckbox.getAttribute('data-id');
-        const kriteriaBobot = parseFloat(kriteriaCheckbox.dataset.bobot); // Ambil bobot kriteria dari atribut data
-
-        // Cek apakah kriteria memiliki subkriteria yang dicentang
-        const subkriteriaChecked = checkboxesSubkriteria.filter(subCheckbox => 
-            subCheckbox.dataset.idKriteria === kriteriaId && subCheckbox.checked
-        );
-
-        // Jika memiliki subkriteria yang dicentang, tampilkan subkriteria dengan bobot gabungan
-        if (subkriteriaChecked.length > 0) {
-            subkriteriaChecked.forEach(subCheckbox => {
-                const subkriteriaBobot = parseFloat(subCheckbox.dataset.bobot); // Ambil bobot subkriteria dari atribut data
-                const bobotGabungan = (kriteriaBobot * subkriteriaBobot) / 100; // Hitung bobot gabungan
-
+        const tabelGabunganBody = document.querySelector('#tabelGabungan tbody');
+        tabelGabunganBody.innerHTML = '';
+    
+        let rowIndex = 1;
+    
+        // Hitung jumlah kriteria yang dicentang
+        const checkedKriteria = checkboxesKriteria.filter(kriteriaCheckbox => kriteriaCheckbox.checked);
+        const kriteriaBobotValue = 100 / checkedKriteria.length;
+    
+        checkedKriteria.forEach(kriteriaCheckbox => {
+            const kriteriaId = kriteriaCheckbox.getAttribute('data-id');
+    
+            // Cek apakah kriteria memiliki subkriteria yang dicentang
+            const subkriteriaChecked = checkboxesSubkriteria.filter(subCheckbox =>
+                subCheckbox.dataset.idKriteria === kriteriaId && subCheckbox.checked
+            );
+    
+            // Jika memiliki subkriteria yang dicentang, hitung bobot gabungan subkriteria
+            if (subkriteriaChecked.length > 0) {
+                const subkriteriaBobotValue = 100 / subkriteriaChecked.length;
+    
+                subkriteriaChecked.forEach(subCheckbox => {
+                    const bobotGabungan = (kriteriaBobotValue * subkriteriaBobotValue) / 100;
+    
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${rowIndex++}</td>
+                        <td>${subCheckbox.value}</td>
+                        <td align="center">${bobotGabungan.toFixed(2)}%</td>
+                    `;
+                    tabelGabunganBody.appendChild(row);
+                });
+            } else {
+                // Jika tidak memiliki subkriteria, tampilkan kriteria langsung dengan bobot kriteria saja
                 const row = document.createElement('tr');
                 row.innerHTML = `
                     <td>${rowIndex++}</td>
-                    <td>${subCheckbox.value}</td>
-                    <td align="center">${bobotGabungan.toFixed(2)}%</td>
+                    <td>${kriteriaCheckbox.value}</td>
+                    <td align="center">${kriteriaBobotValue.toFixed(2)}%</td>
                 `;
                 tabelGabunganBody.appendChild(row);
-            });
-        } else if (kriteriaCheckbox.checked) {
-            // Jika tidak memiliki subkriteria, tampilkan kriteria langsung dengan bobot kriteria saja
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${rowIndex++}</td>
-                <td>${kriteriaCheckbox.value}</td>
-                <td align="center">${kriteriaBobot.toFixed(2)}%</td>
-            `;
-            tabelGabunganBody.appendChild(row);
-        }
-    });
-};
-
-    // Panggil fungsi fillGabunganTable() setelah pembobotan selesai, misalnya di akhir event metodeBobotSelect change handler
+            }
+        });
+    };
+    
+    // Panggil fungsi fillGabunganTable() setelah pembobotan selesai
     metodeBobotSelect.addEventListener('change', () => {
-    // Logika lainnya untuk metode bobot (seperti perhitungan dan tampilan tabel Kriteria dan Subkriteria)
-
-    // Isi tabel gabungan dengan bobot kriteria dan subkriteria
-    fillGabunganTable();
-    hasilPembobotanContainer.classList.remove('d-none'); // Tampilkan hasil pembobotan
-});
+        // Logika lainnya untuk metode bobot (seperti perhitungan dan tampilan tabel Kriteria dan Subkriteria)
+    
+        // Isi tabel gabungan dengan bobot kriteria dan subkriteria
+        fillGabunganTable();
+        hasilPembobotanContainer.classList.remove('d-none'); // Tampilkan hasil pembobotan
+    });
+    
 
 });

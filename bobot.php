@@ -8,7 +8,7 @@ $no = 1;
 <div class="card shadow mt-3">
     <div class="card-header py-3" style="text-align: center; background-color: #167395; color: white; font-weight:bold">DATA BOBOT KRITERIA & SUB-KRITERIA</div>
     <div class="card-body">
-        <h5>Silakan Memilih Kriteria & Sub-Kriteria yang Akan Digunakan</h5>
+        <span><strong>Memilih Kriteria & Sub-Kriteria yang Akan Digunakan</strong></span>
         <div class="col-sm-12 mt-3">
             <table class="table table-bordered">
                 <thead>
@@ -103,8 +103,8 @@ $no = 1;
         <div id="hasilPembobotanContainer" class="d-none">
             <div class="d-flex justify-content-between">
                 <!-- Tabel Kriteria -->
-                <div class="col-6">
-                    <h3>Hasil Pembobotan Kriteria</h3>
+                <div class="col-6 mt-3">
+                    <span><strong>Hasil Pembobotan Kriteria</strong></span>
                     <table id="tabelKriteria" class="table">
                         <thead>
                             <tr>
@@ -118,8 +118,8 @@ $no = 1;
                 </div>
 
                 <!-- Tabel Subkriteria -->
-                <div class="col-6">
-                    <h3>Hasil Pembobotan Subkriteria</h3>
+                <div class="col-6 mt-3">
+                    <span><strong>Hasil Pembobotan Subkriteria</strong></span>
                     <table id="tabelSubkriteria" class="table">
                         <thead>
                             <tr>
@@ -134,8 +134,8 @@ $no = 1;
             </div>
 
             <!-- Tabel Gabungan Kriteria dan Subkriteria -->
-            <div class="mt-4">
-                <h3>Hasil Gabungan Kriteria dan Subkriteria</h3>
+            <div class="col-6 mt-3">
+                <span><strong>Hasil Gabungan Kriteria dan Subkriteria</strong></span>
                 <table id="tabelGabungan" class="table">
                     <thead>
                         <tr>
