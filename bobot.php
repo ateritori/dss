@@ -95,9 +95,15 @@ $no = 1;
             </div>
         </div>
 
-        <div id="bobotdinamis" class="col-sm-12 mt-3 d-none">
-            <div id="inputContainer" class="row"></div> <!-- Tempat input bobot dinamis akan ditambahkan -->
-            <button class="btn-sm-secondary" id="btnbobotdinamis">Gunakan Bobot</button>
+        <!-- Kontainer untuk input bobot kriteria dan subkriteria -->
+        <div id="bobotdinamis" class="col-sm-12 mt-2 d-none">
+            <span><strong>Input Bobot Kriteria </strong></span>
+            <div id="inputKriteriaContainer" class="row">
+            </div>
+            <span><strong>Input Bobot Subkriteria</strong></span>
+            <div id="inputSubKriteriaContainer" class="row">
+            </div>
+            <button class="btn-sm-secondary mt-2" id="btnbobotdinamis">Gunakan Bobot</button>
         </div>
 
         <div id="hasilPembobotanContainer" class="d-none">
