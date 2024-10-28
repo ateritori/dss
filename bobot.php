@@ -140,7 +140,7 @@ $no = 1;
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Nama</th>
+                            <th>Parameter</th>
                             <th>Bobot (%)</th>
                         </tr>
                     </thead>
