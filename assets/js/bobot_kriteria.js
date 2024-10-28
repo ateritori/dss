@@ -107,62 +107,64 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Event listener untuk dropdown metode bobot
     metodeBobotSelect.addEventListener('change', () => {
-    const selectedValue = metodeBobotSelect.value;
-    const selectedKriteria = checkboxesKriteria.filter(checkbox => checkbox.checked);
-    const selectedSubkriteria = checkboxesSubkriteria.filter(checkbox => checkbox.checked);
-
-    if (selectedValue === '1') {  // Semua bobot sama
-        // (Isi tabel Kriteria dan Subkriteria sesuai dengan logika yang ada)
-        // Tampilkan hasil pembobotan
-        hasilPembobotanContainer.classList.remove('d-none');
-        bobotDinamisContainer.classList.add('d-none');
-        inputContainer.innerHTML = '';
-    } else if (selectedValue === '2') { // Dinamis
-        inputContainer.innerHTML = ''; // Bersihkan inputContainer
-
-        // Buat div container untuk input bobot kriteria
-        const bobotKriteriaContainer = document.createElement('div');
-        bobotKriteriaContainer.className = 'mb-3';
-        bobotKriteriaContainer.innerHTML = '<h5>Bobot Kriteria</h5>';
-        
-        // Tambahkan input untuk bobot setiap kriteria yang dicentang
-        selectedKriteria.forEach(checkbox => {
-            const div = document.createElement('div');
-            div.className = 'col mb-3';
-            div.innerHTML = `
-                <label class="form-label">${checkbox.value}</label>
-                <input type="number" class="form-control w-100" name="bobotkriteria" min="10" max="100" placeholder="Range 10% - 100%">
-            `;
-            bobotKriteriaContainer.appendChild(div);
-        });
-
-        // Buat div container untuk input bobot subkriteria
-        const bobotSubkriteriaContainer = document.createElement('div');
-        bobotSubkriteriaContainer.className = 'mb-3';
-        bobotSubkriteriaContainer.innerHTML = '<h5>Bobot Subkriteria</h5>';
-        
-        // Tambahkan input untuk bobot setiap subkriteria yang dicentang
-        selectedSubkriteria.forEach(checkbox => {
-            const div = document.createElement('div');
-            div.className = 'col mb-3';
-            div.innerHTML = `
-                <label class="form-label">${checkbox.value}</label>
-                <input type="number" class="form-control w-100" name="bobotsubkriteria" min="10" max="100" placeholder="Range 10% - 100%">
-            `;
-            bobotSubkriteriaContainer.appendChild(div);
-        });
-
-        // Masukkan container kriteria dan subkriteria ke dalam inputContainer
-        inputContainer.appendChild(bobotKriteriaContainer);
-        inputContainer.appendChild(bobotSubkriteriaContainer);
-        bobotDinamisContainer.classList.remove('d-none');
-        hasilPembobotanContainer.classList.add('d-none');
-    } else {
-        hasilPembobotanContainer.classList.add('d-none');
-        bobotDinamisContainer.classList.add('d-none');
-        inputContainer.innerHTML = '';
-    }
-});
+        const selectedValue = metodeBobotSelect.value;
+        const selectedKriteria = checkboxesKriteria.filter(checkbox => checkbox.checked);
+        const selectedSubkriteria = checkboxesSubkriteria.filter(checkbox => checkbox.checked);
+    
+        if (selectedValue === '1') {  // Semua bobot sama
+            const bobotKriteria = (100 / selectedKriteria.length).toFixed(2);
+            const bobotSubkriteria = (100 / selectedSubkriteria.length).toFixed(2);
+            
+            const tabelKriteriaBody = document.querySelector('#tabelKriteria tbody');
+            const tabelSubkriteriaBody = document.querySelector('#tabelSubkriteria tbody');
+            tabelKriteriaBody.innerHTML = '';
+            tabelSubkriteriaBody.innerHTML = '';
+    
+            // Isi tabel kriteria
+            selectedKriteria.forEach((checkbox, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${checkbox.value}</td>
+                    <td align="center">${bobotKriteria}%</td>
+                `;
+                tabelKriteriaBody.appendChild(row);
+            });
+    
+            // Isi tabel subkriteria
+            selectedSubkriteria.forEach((checkbox, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${checkbox.value}</td>
+                    <td align="center">${bobotSubkriteria}%</td>
+                `;
+                tabelSubkriteriaBody.appendChild(row);
+            });
+    
+            hasilPembobotanContainer.classList.remove('d-none');
+            bobotDinamisContainer.classList.add('d-none');
+            inputContainer.innerHTML = '';
+    
+        } else if (selectedValue === '2') { // Dinamis
+            inputContainer.innerHTML = '';
+            [...selectedKriteria, ...selectedSubkriteria].forEach(checkbox => {
+                const div = document.createElement('div');
+                div.className = 'col mb-3';
+                div.innerHTML = `
+                    <label class="form-label">${checkbox.value}</label>
+                    <input type="number" class="form-control w-100" name="bobotkriteria" min="10" max="100" placeholder="Range 10% - 100%">
+                `;
+                inputContainer.appendChild(div);
+            });
+            bobotDinamisContainer.classList.remove('d-none');
+            hasilPembobotanContainer.classList.add('d-none');
+        } else {
+            hasilPembobotanContainer.classList.add('d-none');
+            bobotDinamisContainer.classList.add('d-none');
+            inputContainer.innerHTML = '';
+        }
+    });
 
     // Event listener untuk tombol simpan bobot dinamis
     btnBobotDinamis.addEventListener('click', () => {
