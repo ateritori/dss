@@ -32,7 +32,8 @@ $no = 1;
                             <td>
                                 <input type="checkbox" class="checkItemKriteria"
                                     value="<?php echo $datakriteria['nama_kriteria']; ?>"
-                                    data-id="<?php echo $datakriteria['id_kriteria']; ?>" />
+                                    data-id="<?php echo $datakriteria['id_kriteria']; ?>"
+                                    data-tipe_kriteria="<?php echo $datakriteria['tipe_kriteria']; ?>" />
                             </td>
                         </tr>
 
@@ -53,7 +54,9 @@ $no = 1;
                                 <td>
                                     <input type='checkbox' class='checkItemSubkriteria' 
                                            value='{$datasubkriteria['nama_subkriteria']}' 
-                                           data-id-kriteria='{$datakriteria['id_kriteria']}' />
+                                           data-id-kriteria='{$datakriteria['id_kriteria']}'
+                                           data-tipe_subkriteria='{$datasubkriteria['tipe_subkriteria']}' 
+                                           disabled/>
                                 </td>
                             </tr>";
                             $urut++;
@@ -64,8 +67,8 @@ $no = 1;
                     <tr>
                         <td colspan="4"></td>
                         <td>
-                            <button id="pilihsemuakriteria">Pilih Semua</button>
-                            <button id="lanjutpilihbobot">Proses</button>
+                            <button id="pilihsemuakriteria"><i class="bi bi-check-all"></i></button>
+                            <button id="lanjutpilihbobot"><i class="bi bi-arrow-right-square-fill"></i></button>
                         </td>
                     </tr>
                 </tbody>
@@ -119,6 +122,12 @@ $no = 1;
                             </tr>
                         </thead>
                         <tbody></tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="2" style="text-align: right;">Total Bobot Kriteria:</td>
+                                <td class="font-weight-bold" id="totalBobotKriteria">0</td>
+                            </tr>
+                        </tfoot>
                     </table>
                 </div>
 
@@ -133,6 +142,12 @@ $no = 1;
                             </tr>
                         </thead>
                         <tbody></tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="2" style="text-align: right;">Total Bobot Subkriteria:</td>
+                                <td class="font-weight-bold" id="totalBobotSubkriteria">0</td>
+                            </tr>
+                        </tfoot>
                     </table>
                 </div>
             </div>
@@ -144,10 +159,17 @@ $no = 1;
                         <tr>
                             <th>No</th>
                             <th>Parameter</th>
+                            <th>Tipe</th>
                             <th>Bobot (%)</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="3" style="text-align: right;">Total Bobot:</td>
+                            <td class="font-weight-bold" id="totalBobotGabungan">0</td>
+                        </tr>
+                    </tfoot>
                 </table>
                 <div class="mt-3">
                     <button class="btn-sm-secondary" id="saveBobot">Simpan Bobot</button>
