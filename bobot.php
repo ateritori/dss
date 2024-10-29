@@ -73,7 +73,6 @@ $no = 1;
                     <ol id="pilihankriteria">
                         <!-- Isian Pilihan Kriteria -->
                     </ol>
-                    <button class="btn-sm-secondary" id="resetpilihan">Reset Pilihan</button>
                 </div>
 
                 <div class="col-sm-4">
@@ -98,15 +97,15 @@ $no = 1;
         <!-- Kontainer untuk input bobot kriteria dan subkriteria -->
         <div id="bobotdinamis" class="d-none mt-3">
             <span><strong>Input Bobot Kriteria </strong></span>
-            <div class="row">
-                <div id="inputKriteriaContainer" class="col-sm-12 d-flex"></div>
+            <div class="row row-cols-4 g-2" id="inputKriteriaContainer">
+                <!-- Input kriteria akan muncul di sini -->
             </div>
             <br>
             <span><strong>Input Bobot Subkriteria</strong></span>
-            <div class="row">
-                <div id="inputSubKriteriaContainer" class="col-sm-12 d-flex"></div>
+            <div class="row row-cols-4 g-2" id="inputSubKriteriaContainer">
+                <!-- Input subkriteria akan muncul di sini -->
             </div>
-            <button class="btn-sm-secondary mt-2" id="btnbobotdinamis">Gunakan Bobot</button>
+            <button class=" btn-sm-secondary mt-3" id="btnbobotdinamis">Gunakan Bobot</button>
         </div>
 
         <div id="hasilPembobotanContainer" class="d-none">
@@ -143,21 +142,28 @@ $no = 1;
             </div>
 
             <!-- Tabel Gabungan Kriteria dan Subkriteria -->
-            <div class="col-6 mt-3">
-                <span><strong>Hasil Gabungan Kriteria dan Subkriteria</strong></span>
-                <table id="tabelGabungan" class="table">
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Parameter</th>
-                            <th>Bobot (%)</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-6 mt-3">
+                        <span><strong>Hasil Gabungan Kriteria dan Subkriteria</strong></span>
+                        <table id="tabelGabungan" class="table">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Parameter</th>
+                                    <th>Bobot (%)</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                    <div class="col-6 mt-3">
+                        <button class="btn-sm-secondary" id="saveBobot">Simpan Bobot</button>
+                        <button class="btn-sm-secondary" id="resetpilihan">Reset Bobot</button>
+                    </div>
+                </div>
             </div>
         </div>
-
     </div>
 </div>
 <script src="assets/js/bobot_kriteria.js"></script>

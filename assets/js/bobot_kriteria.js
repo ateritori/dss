@@ -170,10 +170,7 @@ document.addEventListener("DOMContentLoaded", function () {
         .filter((checkbox) => checkbox.checked)
         .forEach((checkbox) => {
           const div = document.createElement("div");
-          div.classList.add(            
-            "container",                        
-            "align-items-center"
-          );
+          div.className = "col";
           div.innerHTML = `<label class="form-label">${checkbox.value}</label>
                           <input type="number" class="form-control" name="bobotkriteria" width="50px" min="0" max="100" placeholder="Range 0-100">`;
           inputKriteriaContainer.appendChild(div);
@@ -183,10 +180,7 @@ document.addEventListener("DOMContentLoaded", function () {
         .filter((checkbox) => checkbox.checked)
         .forEach((checkbox) => {
           const div = document.createElement("div");
-          div.classList.add(            
-            "container",                        
-            "align-items-center"
-          );
+          div.className = "col";
           div.innerHTML = `<label class="form-label">${checkbox.value}</label>
                           <input type="number" class="form-control" name="bobotsubkriteria" min="0" max="100" placeholder="Range 0-100">`;
           inputSubKriteriaContainer.appendChild(div);
@@ -263,6 +257,8 @@ document.addEventListener("DOMContentLoaded", function () {
           ).map((input) => parseFloat(input.value) || 0)
         : Array(checkedKriteria.length).fill(100 / checkedKriteria.length); // Default bobot
 
+    let totalBobot = 0; // Variabel untuk menghitung total bobot subkriteria
+
     checkedKriteria.forEach((kriteriaCheckbox, index) => {
       const kriteriaId = kriteriaCheckbox.getAttribute("data-id");
       const bobotKriteria = kriteriaBobotValue[index]; // Ambil bobot kriteria yang sesuai
@@ -273,16 +269,28 @@ document.addEventListener("DOMContentLoaded", function () {
           subCheckbox.dataset.idKriteria === kriteriaId && subCheckbox.checked
       );
 
-      // Jika memiliki subkriteria yang dicentang, hitung bobot gabungan subkriteria
       if (subkriteriaChecked.length > 0) {
+        // Jika memiliki subkriteria yang dicentang, hitung bobot gabungan subkriteria
         const subkriteriaBobotValue =
           metodeBobotSelect.value === "2"
             ? Array.from(
                 document.querySelectorAll('input[name="bobotsubkriteria"]')
               ).map((input) => parseFloat(input.value) || 0)
-            : Array(checkedKriteria.length).fill(
+            : Array(subkriteriaChecked.length).fill(
                 100 / subkriteriaChecked.length
-              ); // Default bobot
+              ); // Default bobot subkriteria
+
+        let subkriteriaTotal = subkriteriaBobotValue.reduce((a, b) => a + b, 0);
+
+        // Jika metode bobot adalah 2 dan total bobot subkriteria tidak 100, tampilkan alert
+        if (metodeBobotSelect.value === "2" && subkriteriaTotal !== 100) {
+          alert(
+            "Total bobot subkriteria untuk kriteria '" +
+              kriteriaCheckbox.value +
+              "' harus 100%"
+          );
+          return; // Keluarkan dari fungsi jika bobot tidak sesuai
+        }
 
         subkriteriaChecked.forEach((subCheckbox, subIndex) => {
           const bobotSubkriteria = subkriteriaBobotValue[subIndex]; // Ambil bobot subkriteria yang sesuai
@@ -297,7 +305,7 @@ document.addEventListener("DOMContentLoaded", function () {
           tabelGabunganBody.appendChild(row);
         });
       } else {
-        // Jika tidak memiliki subkriteria, tampilkan kriteria langsung dengan bobot kriteria saja
+        // Jika tidak memiliki subkriteria yang dicentang, hanya tampilkan kriteria dengan bobot kriteria saja tanpa perhitungan bobotGabungan
         const row = document.createElement("tr");
         row.innerHTML = `
                 <td>${rowIndex++}</td>
