@@ -1,23 +1,25 @@
 <?php
 // Query untuk mengambil semua data dari tabel kriteria
 $querykriteria = "SELECT * FROM Kriteria";
-// Menjalankan query
 $resultkriteria = mysqli_query($conn, $querykriteria);
 $no = 1;
 ?>
+
 <div class="card shadow mt-3">
-    <div class="card-header py-3" style="text-align: center; background-color: #167395; color: white; font-weight:bold">DATA BOBOT KRITERIA & SUB-KRITERIA</div>
+    <div class="card-header py-3 text-center" style="background-color: #167395; color: white; font-weight:bold">
+        DATA BOBOT KRITERIA & SUB-KRITERIA
+    </div>
     <div class="card-body">
         <span><strong>Memilih Kriteria & Sub-Kriteria yang Akan Digunakan</strong></span>
         <div class="col-sm-12 mt-3">
             <table class="table table-bordered">
-                <thead>
-                    <tr style="text-align: center;">
+                <thead class="text-center">
+                    <tr>
                         <th>No</th>
                         <th>Kriteria/Sub-Kriteria</th>
                         <th>Tipe</th>
                         <th>Memiliki Sub-Kriteria</th>
-                        <th>Pilih Kriteria/ Sub-Kriteria</th>
+                        <th>Pilih Kriteria/Sub-Kriteria</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -25,63 +27,62 @@ $no = 1;
                         <tr>
                             <td><?php echo $no; ?></td>
                             <td><?php echo $datakriteria['nama_kriteria']; ?></td>
-                            <td><?php echo is_null($datakriteria['tipe_kriteria']) ? "NULL" : $datakriteria['tipe_kriteria']; ?></td>
-                            <td><?php echo ($datakriteria['sub_kriteria'] == '1') ? "Ya" :  "Tidak"; ?></td>
+                            <td><?php echo $datakriteria['tipe_kriteria'] ?: "NULL"; ?></td>
+                            <td><?php echo $datakriteria['sub_kriteria'] == '1' ? "Ya" : "Tidak"; ?></td>
                             <td>
                                 <input type="checkbox" class="checkItemKriteria"
                                     value="<?php echo $datakriteria['nama_kriteria']; ?>"
                                     data-id="<?php echo $datakriteria['id_kriteria']; ?>" />
                             </td>
                         </tr>
+
                     <?php
                         // Query untuk mengambil semua data dari tabel Sub-Kriteria
-                        $querysubkriteria = "SELECT * FROM subkriteria WHERE id_kriteria=$datakriteria[id_kriteria]";
-                        // Menjalankan query
+                        $querysubkriteria = "SELECT * FROM subkriteria WHERE id_kriteria = {$datakriteria['id_kriteria']}";
                         $resultsubkriteria = mysqli_query($conn, $querysubkriteria);
                         $urut = 1;
+
+                        // Loop Subkriteria
                         while ($datasubkriteria = mysqli_fetch_array($resultsubkriteria)) {
-                            echo
-                            "<tr>
-                                <td style= 'text-align: right'>$no.$urut.</td>
-                                <td>&nbsp;&nbsp;&nbsp;$datasubkriteria[nama_subkriteria]</td>
-                                <td>$datasubkriteria[tipe_subkriteria]</td>
+                            echo "
+                            <tr>
+                                <td class='text-end'>$no.$urut.</td>
+                                <td>&nbsp;&nbsp;&nbsp;{$datasubkriteria['nama_subkriteria']}</td>
+                                <td>{$datasubkriteria['tipe_subkriteria']}</td>
                                 <td>Tidak</td>
-                                <td><input type=checkbox class=checkItemSubkriteria
-                                    value='$datasubkriteria[nama_subkriteria]';
-                                    data-id-kriteria='$datakriteria[id_kriteria]';</td>
+                                <td>
+                                    <input type='checkbox' class='checkItemSubkriteria' 
+                                           value='{$datasubkriteria['nama_subkriteria']}' 
+                                           data-id-kriteria='{$datakriteria['id_kriteria']}' />
+                                </td>
                             </tr>";
                             $urut++;
                         }
                         $no++;
-                    }
-                    ?>
+                    } ?>
+
                     <tr>
                         <td colspan="4"></td>
                         <td>
-                            <button id="pilihsemuakriteria"><i class="bi bi-check-square"></i></button>
-                            <button id="lanjutpilihbobot"><i class="bi bi-arrow-right-square-fill"></i></button>
+                            <button id="pilihsemuakriteria">Pilih Semua</button>
+                            <button id="lanjutpilihbobot">Proses</button>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
 
+        <!-- Pilihan Kriteria dan Sub-Kriteria Terpilih -->
         <div class="col-sm-12 d-none" id="pilihancontainer">
             <div class="row">
                 <div class="col-sm-4">
                     <span>Kriteria Yang Dipilih:</span>
-                    <ol id="pilihankriteria">
-                        <!-- Isian Pilihan Kriteria -->
-                    </ol>
+                    <ol id="pilihankriteria"></ol>
                 </div>
-
                 <div class="col-sm-4">
                     <span>Sub-Kriteria Yang Dipilih:</span>
-                    <ol id="pilihansubkriteria">
-                        <!-- Isian Pilihan Sub-Kriteria -->
-                    </ol>
+                    <ol id="pilihansubkriteria"></ol>
                 </div>
-
                 <div class="col-sm-4">
                     <label>Silakan Pilih Metode Pembobotan:</label>
                     <select name="metodebobot" id="metodebobot" class="form-control">
@@ -96,21 +97,17 @@ $no = 1;
 
         <!-- Kontainer untuk input bobot kriteria dan subkriteria -->
         <div id="bobotdinamis" class="d-none mt-3">
-            <span><strong>Input Bobot Kriteria </strong></span>
-            <div class="row row-cols-4 g-2" id="inputKriteriaContainer">
-                <!-- Input kriteria akan muncul di sini -->
-            </div>
+            <span><strong>Input Bobot Kriteria</strong></span>
+            <div class="row row-cols-4 g-2" id="inputKriteriaContainer"></div>
             <br>
             <span><strong>Input Bobot Subkriteria</strong></span>
-            <div class="row row-cols-4 g-2" id="inputSubKriteriaContainer">
-                <!-- Input subkriteria akan muncul di sini -->
-            </div>
-            <button class=" btn-sm-secondary mt-3" id="btnbobotdinamis">Gunakan Bobot</button>
+            <div class="row row-cols-4 g-2" id="inputSubKriteriaContainer"></div>
+            <button class="btn-sm-secondary mt-3" id="btnbobotdinamis">Gunakan Bobot</button>
         </div>
 
+        <!-- Hasil Pembobotan -->
         <div id="hasilPembobotanContainer" class="d-none">
             <div class="d-flex justify-content-between">
-                <!-- Tabel Kriteria -->
                 <div class="col-6 mt-3">
                     <span><strong>Hasil Pembobotan Kriteria</strong></span>
                     <table id="tabelKriteria" class="table">
@@ -125,7 +122,6 @@ $no = 1;
                     </table>
                 </div>
 
-                <!-- Tabel Subkriteria -->
                 <div class="col-6 mt-3">
                     <span><strong>Hasil Pembobotan Subkriteria</strong></span>
                     <table id="tabelSubkriteria" class="table">
@@ -141,29 +137,25 @@ $no = 1;
                 </div>
             </div>
 
-            <!-- Tabel Gabungan Kriteria dan Subkriteria -->
-            <div class="col-sm-12">
-                <div class="row">
-                    <div class="col-6 mt-3">
-                        <span><strong>Hasil Gabungan Kriteria dan Subkriteria</strong></span>
-                        <table id="tabelGabungan" class="table">
-                            <thead>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Parameter</th>
-                                    <th>Bobot (%)</th>
-                                </tr>
-                            </thead>
-                            <tbody></tbody>
-                        </table>
-                    </div>
-                    <div class="col-6 mt-3">
-                        <button class="btn-sm-secondary" id="saveBobot">Simpan Bobot</button>
-                        <button class="btn-sm-secondary" id="resetpilihan">Reset Bobot</button>
-                    </div>
+            <div class="col-sm-12 mt-3">
+                <span><strong>Hasil Gabungan Kriteria dan Subkriteria</strong></span>
+                <table id="tabelGabungan" class="table">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Parameter</th>
+                            <th>Bobot (%)</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <div class="mt-3">
+                    <button class="btn-sm-secondary" id="saveBobot">Simpan Bobot</button>
+                    <button class="btn-sm-secondary" id="resetpilihan">Reset Bobot</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 <script src="assets/js/bobot_kriteria.js"></script>
