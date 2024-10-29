@@ -1,28 +1,30 @@
 <?php
-// Menghubungkan ke database
-require('config/koneksi.php');
+// ambil_subkriteria.php
+require 'config/koneksi.php';
 
-// Mendapatkan id_kriteria dari permintaan POST
-$id_kriteria = isset($_POST['id_kriteria']) ? $_POST['id_kriteria'] : '';
+$id_kriteria = $_POST['id_kriteria'];
 
-// Memeriksa apakah id_kriteria valid
-if (!empty($id_kriteria)) {
-    // Mengambil data subkriteria berdasarkan id_kriteria
-    $sqlsubkriteria = mysqli_query($conn, "SELECT * FROM subkriteria WHERE id_kriteria = '$id_kriteria'");
+// Ambil semua sub-kriteria berdasarkan id_kriteria
+$sqlSubkriteria = mysqli_query($conn, "SELECT * FROM subkriteria WHERE id_kriteria = '$id_kriteria'");
 
-    // Memeriksa apakah ada subkriteria yang ditemukan
-    if (mysqli_num_rows($sqlsubkriteria) > 0) {
-        // Menghasilkan opsi subkriteria untuk dropdown
-        $options = '';
-        while ($datasubkriteria = mysqli_fetch_array($sqlsubkriteria)) {
-            $options .= "<option value='" . $datasubkriteria['id_subkriteria'] . "'>" . $datasubkriteria['nama_subkriteria'] . "</option>";
-        }
-        echo $options; // Mengembalikan opsi subkriteria
-    } else {
-        echo "no_subkriteria"; // Tidak ada subkriteria ditemukan
-    }
+// Ambil id_subkriteria yang sudah tersimpan di tabel rentang untuk id_kriteria ini
+$sqlRentang = mysqli_query($conn, "SELECT id_subkriteria FROM rentang WHERE id_kriteria = '$id_kriteria'");
+$subkriteriaTersimpan = [];
+while ($row = mysqli_fetch_assoc($sqlRentang)) {
+    $subkriteriaTersimpan[] = $row['id_subkriteria'];
+}
+
+// Buat opsi untuk dropdown sub-kriteria
+$options = "";
+while ($dataSubkriteria = mysqli_fetch_array($sqlSubkriteria)) {
+    $isDisabled = in_array($dataSubkriteria['id_subkriteria'], $subkriteriaTersimpan) ? 'disabled' : '';
+    $options .= "<option value='" . $dataSubkriteria['id_subkriteria'] . "' $isDisabled>" . $dataSubkriteria['nama_subkriteria'] . ($isDisabled ? " (Sudah Tersimpan)" : "") . "</option>";
+}
+
+if ($options === "") {
+    echo "no_subkriteria";
 } else {
-    echo "no_subkriteria"; // id_kriteria tidak valid
+    echo $options; // Kembalikan opsi sub-kriteria
 }
 
 // Menutup koneksi database

@@ -15,8 +15,20 @@ while ($row = mysqli_fetch_assoc($sqlRentang)) {
 // Buat opsi untuk dropdown kriteria
 $options = "<option value=''>Pilih Kriteria</option>";
 while ($datakriteria = mysqli_fetch_array($sqlkriteria)) {
-    $isDisabled = in_array($datakriteria['id_kriteria'], $kriteriaTersimpan) ? 'disabled' : '';
-    $keterangan = in_array($datakriteria['id_kriteria'], $kriteriaTersimpan) ? " (Rentang Sudah Diisi)" : "";
+    // Ambil jumlah sub-kriteria berdasarkan id_kriteria
+    $id_kriteria = $datakriteria['id_kriteria'];
+    $sqlSubkriteria = mysqli_query($conn, "SELECT COUNT(*) as total FROM subkriteria WHERE id_kriteria = '$id_kriteria'");
+    $subkriteriaData = mysqli_fetch_assoc($sqlSubkriteria);
+    $totalSubkriteria = $subkriteriaData['total'];
+
+    // Ambil jumlah sub-kriteria yang sudah tersimpan di tabel rentang untuk id_kriteria ini
+    $sqlSubkriteriaTersimpan = mysqli_query($conn, "SELECT COUNT(*) as total FROM rentang WHERE id_kriteria = '$id_kriteria'");
+    $subkriteriaTersimpanData = mysqli_fetch_assoc($sqlSubkriteriaTersimpan);
+    $totalSubkriteriaTersimpan = $subkriteriaTersimpanData['total'];
+
+    // Cek apakah total subkriteria tersimpan lebih kecil dari total subkriteria
+    $isDisabled = ($totalSubkriteriaTersimpan >= $totalSubkriteria) ? 'disabled' : '';
+    $keterangan = ($isDisabled) ? " (Rentang Sudah Diisi)" : "";
     $options .= "<option value='" . $datakriteria['id_kriteria'] . "' $isDisabled>" . $datakriteria['nama_kriteria'] . $keterangan . "</option>";
 }
 ?>
