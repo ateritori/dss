@@ -53,8 +53,12 @@ foreach ($subkriteria as $index => $nama_subkriteria) {
     }
 }
 
-// Jika ada penambahan subkriteria baru, update kolom tipe_kriteria dan sub_kriteria di tabel Kriteria
+// Jika ada penambahan subkriteria baru, hapus semua data rentang yang memiliki id_kriteria terkait
 if ($isNewSubkriteriaAdded) {
+    // Hapus semua data rentang yang memiliki id_kriteria terkait
+    $sqlDeleteRentang = "DELETE FROM Rentang WHERE id_kriteria = '$id_kriteria'";
+    mysqli_query($conn, $sqlDeleteRentang);
+
     $sqlUpdateKriteria = "UPDATE Kriteria 
                           SET tipe_kriteria = NULL, sub_kriteria = '1' 
                           WHERE id_kriteria = '$id_kriteria'";

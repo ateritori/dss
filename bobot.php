@@ -142,7 +142,7 @@ $no = 1;
                             </tr>
                         </thead>
                         <tbody></tbody>
-                        <tfoot>
+                        <tfoot class="d-none">
                             <tr>
                                 <td colspan="2" style="text-align: right;">Total Bobot Subkriteria:</td>
                                 <td class="font-weight-bold" id="totalBobotSubkriteria">0</td>

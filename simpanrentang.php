@@ -25,7 +25,7 @@ function simpanRentang($conn)
         $stmt->bind_param("iis", $id_kriteria, $subkriteria, $model_penilaian);
 
         if ($stmt->execute()) {
-            echo "Data berhasil disimpan dengan model penilaian Dinamis/Input Manual.";
+            echo "<script>alert('Data sub-kriteria berhasil diperbarui!'); window.location.href = 'dashboard.php?url=data_rentang';</script>";
         } else {
             // Log error
             logError($stmt->error);
