@@ -177,69 +177,74 @@ document.addEventListener("DOMContentLoaded", function () {
     // Nomor urut untuk tabel gabungan
     let gabunganIndex = 1;
 
-    // Hitung jumlah kriteria dan subkriteria yang terpilih
+    // Hitung jumlah kriteria yang terpilih
     const jumlahKriteria = Array.from(checkItemKriteria).filter(
       (kriteria) => kriteria.checked
     ).length;
-    const jumlahSubkriteria = Array.from(checkItemSubkriteria).filter(
-      (subkriteria) => subkriteria.checked
-    ).length;
-
-    // Hitung bobot untuk kriteria
-    const bobotKriteria =
-      jumlahKriteria > 0 ? (100 / jumlahKriteria).toFixed(2) : 0;
 
     // Inisialisasi total bobot
     let totalBobotKriteria = 0;
     let totalBobotSubkriteria = 0;
     let totalBobotGabungan = 0;
 
-    // Isi tabel dengan data kriteria dan subkriteria beserta nomor urut
+    // Menghitung bobot untuk kriteria dan menyimpan subkriteria untuk setiap kriteria
     let kriteriaIndex = 1;
     checkItemKriteria.forEach((kriteria) => {
       if (kriteria.checked) {
         // Tambah ke tabel Kriteria
+        const bobotKriteria = (100 / jumlahKriteria).toFixed(2); // Hitung bobot kriteria
         const row = tabelKriteria.insertRow();
         row.innerHTML = `<td>${kriteriaIndex}</td><td>${kriteria.value}</td><td>${bobotKriteria}</td>`;
         totalBobotKriteria += parseFloat(bobotKriteria); // Tambahkan bobot ke total
         kriteriaIndex++;
 
-        // Cek apakah kriteria memiliki subkriteria
-        const hasSubkriteria = Array.from(checkItemSubkriteria).some(
+        // Cek jumlah subkriteria untuk kriteria ini
+        const subkriteriaTerkait = Array.from(checkItemSubkriteria).filter(
           (subkriteria) =>
             subkriteria.dataset.idKriteria === kriteria.dataset.id &&
             subkriteria.checked
         );
+        const jumlahSubkriteria = subkriteriaTerkait.length;
 
-        if (!hasSubkriteria) {
-          // Tambah ke tabel Gabungan jika tidak memiliki subkriteria
+        // Tambahkan ke tabel Gabungan jika tidak memiliki subkriteria
+        if (jumlahSubkriteria === 0) {
           const gabunganRow = tabelGabungan.insertRow();
           gabunganRow.innerHTML = `<td>${gabunganIndex}</td><td>${kriteria.value}</td><td>${kriteria.dataset.tipe_kriteria}</td><td>${bobotKriteria}</td>`;
           totalBobotGabungan += parseFloat(bobotKriteria); // Tambahkan bobot ke total
           gabunganIndex++;
+        } else {
+          // Hitung bobot untuk setiap subkriteria
+          const bobotSubkriteria = (100 / jumlahSubkriteria).toFixed(2);
+          let subkriteriaIndex = 1;
+
+          // Reset total bobot subkriteria untuk kriteria ini
+          let totalBobotSubkriteriaPerKriteria = 0;
+
+          subkriteriaTerkait.forEach((subkriteria) => {
+            // Tambah ke tabel Subkriteria
+            const rowSubkriteria = tabelSubkriteria.insertRow();
+            rowSubkriteria.innerHTML = `<td>${subkriteriaIndex}</td><td>${subkriteria.value}</td><td>${bobotSubkriteria}</td>`;
+            totalBobotSubkriteria += parseFloat(bobotSubkriteria); // Tambahkan bobot ke total subkriteria umum
+            totalBobotSubkriteriaPerKriteria += parseFloat(bobotSubkriteria); // Tambahkan bobot ke total subkriteria per kriteria
+            subkriteriaIndex++;
+
+            // Tambah ke tabel Gabungan dengan rumus bobot subkriteria dikali bobot kriteria
+            const bobotGabungan = (
+              bobotSubkriteria *
+              (bobotKriteria / 100)
+            ).toFixed(2);
+            const gabunganRow = tabelGabungan.insertRow();
+            gabunganRow.innerHTML = `<td>${gabunganIndex}</td><td>${subkriteria.value}</td><td>${subkriteria.dataset.tipe_subkriteria}</td><td>${bobotGabungan}</td>`;
+            totalBobotGabungan += parseFloat(bobotGabungan); // Tambahkan bobot ke total
+            gabunganIndex++;
+          });
+
+          // Tambahkan baris total bobot subkriteria untuk kriteria ini
+          const rowTotalSubkriteria = tabelSubkriteria.insertRow();
+          rowTotalSubkriteria.innerHTML = `<td colspan="2">Total Bobot Subkriteria: ${totalBobotSubkriteriaPerKriteria.toFixed(
+            2
+          )}</td><td></td>`;
         }
-      }
-    });
-
-    let subkriteriaIndex = 1;
-    checkItemSubkriteria.forEach((subkriteria) => {
-      if (subkriteria.checked) {
-        // Tambah ke tabel Subkriteria
-        const row = tabelSubkriteria.insertRow();
-        const bobotSubkriteria = (100 / jumlahSubkriteria).toFixed(2);
-        row.innerHTML = `<td>${subkriteriaIndex}</td><td>${subkriteria.value}</td><td>${bobotSubkriteria}</td>`;
-        totalBobotSubkriteria += parseFloat(bobotSubkriteria); // Tambahkan bobot ke total
-        subkriteriaIndex++;
-
-        // Tambah ke tabel Gabungan, sembunyikan nama kriteria dan tampilkan nama subkriteria
-        const bobotSubkriteriaGabungan = (
-          ((100 / jumlahSubkriteria) * bobotKriteria) /
-          100
-        ).toFixed(2);
-        const gabunganRow = tabelGabungan.insertRow();
-        gabunganRow.innerHTML = `<td>${gabunganIndex}</td><td>${subkriteria.value}</td><td>${subkriteria.dataset.tipe_subkriteria}</td><td>${bobotSubkriteriaGabungan}</td>`;
-        totalBobotGabungan += parseFloat(bobotSubkriteriaGabungan); // Tambahkan bobot ke total
-        gabunganIndex++;
       }
     });
 

@@ -47,7 +47,7 @@ $no = 1;
                         while ($datasubkriteria = mysqli_fetch_array($resultsubkriteria)) {
                             echo "
                             <tr>
-                                <td class='text-end'>$no.$urut.</td>
+                                <td style='text-align: right'>$no.$urut.</td>
                                 <td>&nbsp;&nbsp;&nbsp;{$datasubkriteria['nama_subkriteria']}</td>
                                 <td>{$datasubkriteria['tipe_subkriteria']}</td>
                                 <td>Tidak</td>
@@ -56,7 +56,7 @@ $no = 1;
                                            value='{$datasubkriteria['nama_subkriteria']}' 
                                            data-id-kriteria='{$datakriteria['id_kriteria']}'
                                            data-tipe_subkriteria='{$datasubkriteria['tipe_subkriteria']}' 
-                                           disabled/>
+                                           disabled />
                                 </td>
                             </tr>";
                             $urut++;
@@ -138,7 +138,7 @@ $no = 1;
                             <tr>
                                 <th>No</th>
                                 <th>Nama Subkriteria</th>
-                                <th>Bobot (%)</th>
+                                <th>Bobot</th>
                             </tr>
                         </thead>
                         <tbody></tbody>
