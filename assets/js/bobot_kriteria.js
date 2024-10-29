@@ -170,15 +170,12 @@ document.addEventListener("DOMContentLoaded", function () {
         .filter((checkbox) => checkbox.checked)
         .forEach((checkbox) => {
           const div = document.createElement("div");
-          div.classList.add(
-            "col-sm-4",
-            "col-sm-6",
-            "col-12",
-            "mb-3",
+          div.classList.add(            
+            "container",                        
             "align-items-center"
           );
           div.innerHTML = `<label class="form-label">${checkbox.value}</label>
-                          <input type="number" class="form-control" name="bobotkriteria" min="0" max="100" placeholder="Range 0-100">`;
+                          <input type="number" class="form-control" name="bobotkriteria" width="50px" min="0" max="100" placeholder="Range 0-100">`;
           inputKriteriaContainer.appendChild(div);
         });
 
@@ -186,11 +183,8 @@ document.addEventListener("DOMContentLoaded", function () {
         .filter((checkbox) => checkbox.checked)
         .forEach((checkbox) => {
           const div = document.createElement("div");
-          div.classList.add(
-            "col-sm-4",
-            "col-sm-6",
-            "col-12",
-            "mb-3",
+          div.classList.add(            
+            "container",                        
             "align-items-center"
           );
           div.innerHTML = `<label class="form-label">${checkbox.value}</label>
