@@ -111,7 +111,7 @@ $no = 1;
         <!-- Hasil Pembobotan -->
         <div id="hasilPembobotanContainer" class="d-none">
             <div class="d-flex justify-content-between">
-                <div class="col-6 mt-3">
+                <div class="col-5 mt-3">
                     <span><strong>Hasil Pembobotan Kriteria</strong></span>
                     <table id="tabelKriteria" class="table">
                         <thead>
@@ -131,13 +131,13 @@ $no = 1;
                     </table>
                 </div>
 
-                <div class="col-6 mt-3">
+                <div class="col-7 mt-3">
                     <span><strong>Hasil Pembobotan Subkriteria</strong></span>
                     <table id="tabelSubkriteria" class="table">
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Nama Subkriteria</th>
+                                <th>Nama Kriteria-Subkriteria</th>
                                 <th>Bobot</th>
                             </tr>
                         </thead>
