@@ -12,6 +12,8 @@ document.addEventListener("DOMContentLoaded", function () {
   const tabelSubkriteria = document.getElementById("tabelSubkriteria");
   const tabelGabungan = document.getElementById("tabelGabungan");
   const hasilPembobotanContainer = document.getElementById("hasilPembobotanContainer");
+  const inputKriteriaContainer = document.getElementById("inputKriteriaContainer");
+  const inputSubKriteriaContainer = document.getElementById("inputSubKriteriaContainer");
 
   function updatePilihanLists() {
     pilihKriteriaList.innerHTML = "";
@@ -90,6 +92,34 @@ document.addEventListener("DOMContentLoaded", function () {
 
     updateLanjutPilihBobotStatus();
     resetTables();
+  }
+
+  function createInputBobotKriteria() {
+    inputKriteriaContainer.innerHTML = ''; // Clear previous inputs
+    checkItemKriteria.forEach((item) => {
+      if (item.checked) {
+        inputKriteriaContainer.innerHTML += `
+          <div class="col">
+            <label>${item.value}</label>
+            <input type="number" class="form-control" placeholder="Bobot ${item.value}" min="0" max="100">
+          </div>
+        `;
+      }
+    });
+  }
+
+  function createInputBobotSubkriteria() {
+    inputSubKriteriaContainer.innerHTML = ''; // Clear previous inputs
+    checkItemSubkriteria.forEach((item) => {
+      if (item.checked) {
+        inputSubKriteriaContainer.innerHTML += `
+          <div class="col">
+            <label>${item.value}</label>
+            <input type="number" class="form-control" placeholder="Bobot ${item.value}" min="0" max="100">
+          </div>
+        `;
+      }
+    });
   }
 
   pilihSemuaKriteriaBtn.addEventListener("click", toggleAllKriteria);
@@ -196,10 +226,54 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   metodeBobotSelect.addEventListener("change", () => {
+    console.log("Metode bobot yang dipilih:", metodeBobotSelect.value); // Debugging
     if (metodeBobotSelect.value === "1") {
-      updateTables();
+      // Jika metode 1, panggil fungsi updateTables untuk menampilkan tabel
+      updateTables(); // Tampilkan tabel
+      hasilPembobotanContainer.classList.remove("d-none"); // Pastikan container hasil terlihat
+      bobotdinamis.classList.add("d-none"); // Sembunyikan kontainer bobot
+    } else if (metodeBobotSelect.value === "2") {
+      // Jika metode 2, sembunyikan tabel dan tampilkan kontainer bobot
+      resetTables(); // Sembunyikan tabel
+      hasilPembobotanContainer.classList.add("d-none"); // Sembunyikan container hasil
+      bobotdinamis.classList.remove("d-none"); // Tampilkan kontainer bobot
+      createInputBobotKriteria(); // Tambahkan input bobot kriteria
+      createInputBobotSubkriteria(); // Tambahkan input bobot subkriteria
     } else {
-      resetTables();
+      // Reset untuk pilihan lainnya, sembunyikan tabel dan kontainer bobot
+      resetTables(); // Sembunyikan tabel
+      hasilPembobotanContainer.classList.add("d-none"); // Sembunyikan container hasil
+      bobotdinamis.classList.add("d-none"); // Sembunyikan kontainer bobot
+      inputKriteriaContainer.innerHTML = ''; // Kosongkan input kriteria
+      inputSubKriteriaContainer.innerHTML = ''; // Kosongkan input subkriteria
     }
   });
+  
+  function createInputBobotKriteria() {
+    inputKriteriaContainer.innerHTML = ''; // Kosongkan input sebelumnya
+    checkItemKriteria.forEach((item) => {
+      if (item.checked) {
+        inputKriteriaContainer.innerHTML += `
+          <div class="col">
+            <label>${item.value}</label>
+            <input type="number" class="form-control" placeholder="Bobot ${item.value}" min="0" max="100">
+          </div>
+        `;
+      }
+    });
+  }
+
+  function createInputBobotSubkriteria() {
+    inputSubKriteriaContainer.innerHTML = ''; // Kosongkan input sebelumnya
+    checkItemSubkriteria.forEach((item) => {
+      if (item.checked) {
+        inputSubKriteriaContainer.innerHTML += `
+          <div class="col">
+            <label>${item.value}</label>
+            <input type="number" class="form-control" placeholder="Bobot ${item.value}" min="0" max="100">
+          </div>
+        `;
+      }
+    });
+  }
 });
