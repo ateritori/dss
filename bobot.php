@@ -180,4 +180,8 @@ $no = 1;
     </div>
 </div>
 
-<script src="assets/js/bobot_kriteria.js"></script>
+<script src="assets/js/inisialisasi.js"></script>
+<script src="assets/js/pilihan.js"></script>
+<script src="assets/js/tabel.js"></script>\
+<script src="assets/js/update_tabel.js"></script>
+<script src="assets/js/listener.js"></script>
