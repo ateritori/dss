@@ -94,7 +94,7 @@ document.addEventListener("DOMContentLoaded", function () {
     resetTables();
   }
 
-  function createInputBobotKriteria() {
+  function renderBobotKriteriaInputs() {
     inputKriteriaContainer.innerHTML = ''; // Clear previous inputs
     checkItemKriteria.forEach((item) => {
       if (item.checked) {
@@ -108,7 +108,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  function createInputBobotSubkriteria() {
+  function renderBobotSubkriteriaInputs() {
     inputSubKriteriaContainer.innerHTML = ''; // Clear previous inputs
     checkItemSubkriteria.forEach((item) => {
       if (item.checked) {
@@ -203,77 +203,26 @@ document.addEventListener("DOMContentLoaded", function () {
             totalBobotGabungan += parseFloat(bobotGabungan);
             gabunganIndex++;
           });
-
-          const rowTotalSubkriteria = tabelSubkriteria.insertRow();
-          rowTotalSubkriteria.innerHTML = `<td colspan="2">Total Bobot Subkriteria: ${totalBobotSubkriteriaPerKriteria.toFixed(2)}</td><td></td>`;
         }
       }
     });
 
-    totalBobotKriteriaElement.innerText = totalBobotKriteria.toFixed(2);
-    totalBobotSubkriteriaElement.innerText = totalBobotSubkriteria.toFixed(2);
-    totalBobotGabunganElement.innerText = totalBobotGabungan.toFixed(2);
+    totalBobotKriteriaElement.textContent = `${totalBobotKriteria.toFixed(2)} %`;
+    totalBobotSubkriteriaElement.textContent = `${totalBobotSubkriteria.toFixed(2)} %`;
+    totalBobotGabunganElement.textContent = `${totalBobotGabungan.toFixed(2)} %`;
   }
 
   function resetTables() {
-    document.querySelector("#tabelKriteria tbody").innerHTML = "";
-    document.querySelector("#tabelSubkriteria tbody").innerHTML = "";
-    document.querySelector("#tabelGabungan tbody").innerHTML = "";
+    tabelKriteria.innerHTML = "";
+    tabelSubkriteria.innerHTML = "";
+    tabelGabungan.innerHTML = "";
     hasilPembobotanContainer.classList.add("d-none");
-    document.querySelector("#totalBobotKriteria").innerText = `0.00`;
-    document.querySelector("#totalBobotSubkriteria").innerText = `0.00`;
-    document.querySelector("#totalBobotGabungan").innerText = `0.00`;
   }
 
   metodeBobotSelect.addEventListener("change", () => {
-    console.log("Metode bobot yang dipilih:", metodeBobotSelect.value); // Debugging
-    if (metodeBobotSelect.value === "1") {
-      // Jika metode 1, panggil fungsi updateTables untuk menampilkan tabel
-      updateTables(); // Tampilkan tabel
-      hasilPembobotanContainer.classList.remove("d-none"); // Pastikan container hasil terlihat
-      bobotdinamis.classList.add("d-none"); // Sembunyikan kontainer bobot
-    } else if (metodeBobotSelect.value === "2") {
-      // Jika metode 2, sembunyikan tabel dan tampilkan kontainer bobot
-      resetTables(); // Sembunyikan tabel
-      hasilPembobotanContainer.classList.add("d-none"); // Sembunyikan container hasil
-      bobotdinamis.classList.remove("d-none"); // Tampilkan kontainer bobot
-      createInputBobotKriteria(); // Tambahkan input bobot kriteria
-      createInputBobotSubkriteria(); // Tambahkan input bobot subkriteria
-    } else {
-      // Reset untuk pilihan lainnya, sembunyikan tabel dan kontainer bobot
-      resetTables(); // Sembunyikan tabel
-      hasilPembobotanContainer.classList.add("d-none"); // Sembunyikan container hasil
-      bobotdinamis.classList.add("d-none"); // Sembunyikan kontainer bobot
-      inputKriteriaContainer.innerHTML = ''; // Kosongkan input kriteria
-      inputSubKriteriaContainer.innerHTML = ''; // Kosongkan input subkriteria
-    }
+    renderBobotKriteriaInputs();
+    renderBobotSubkriteriaInputs();
+    updateTables();
   });
   
-  function createInputBobotKriteria() {
-    inputKriteriaContainer.innerHTML = ''; // Kosongkan input sebelumnya
-    checkItemKriteria.forEach((item) => {
-      if (item.checked) {
-        inputKriteriaContainer.innerHTML += `
-          <div class="col">
-            <label>${item.value}</label>
-            <input type="number" class="form-control" placeholder="Bobot ${item.value}" min="0" max="100">
-          </div>
-        `;
-      }
-    });
-  }
-
-  function createInputBobotSubkriteria() {
-    inputSubKriteriaContainer.innerHTML = ''; // Kosongkan input sebelumnya
-    checkItemSubkriteria.forEach((item) => {
-      if (item.checked) {
-        inputSubKriteriaContainer.innerHTML += `
-          <div class="col">
-            <label>${item.value}</label>
-            <input type="number" class="form-control" placeholder="Bobot ${item.value}" min="0" max="100">
-          </div>
-        `;
-      }
-    });
-  }
 });
